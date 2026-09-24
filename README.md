@@ -1,50 +1,40 @@
-# Step One: nova landing page
+# Step One: landing page de conversão
 
-Nova versão da página https://step-one.pt/, focada em gerar leads. Usa as mesmas imagens, as mesmas cores (laranja `#FC8424`, cinzento, creme), a mesma fonte (Raleway) e segue a ordem de secções do original. Muda o que trava a conversão.
+Página única e estática (`index.html` + `assets/`), sem dependências nem build. Na Vercel: importar o repositório e carregar em Deploy.
 
-- `index.html`: a página completa (HTML, CSS e JS num só ficheiro, sem dependências).
-- `assets/img/`: as fotografias do site original, convertidas para WebP em 2 tamanhos.
-- `assets/fonts/`: Raleway alojada no próprio site (sem Google Fonts).
+Carga inicial: **0,28 MB e 12 pedidos**. O site atual em WordPress carrega 11,8 MB em 141 pedidos.
 
-Para ver localmente: `python3 -m http.server` dentro desta pasta e abrir http://localhost:8000.
+## O que a página faz para gerar mais leads
 
-## Análise do site atual (24/09/2026)
+1. **Quiz em ecrã inteiro em vez de formulário.** Todos os botões abrem um quiz de 5 perguntas de um toque: objetivo, obstáculo, plano, compromisso 0–10 e investimento. Depois há um ecrã "a preparar a tua recomendação" e aparece o **plano recomendado personalizado**, com um antes/depois parecido com o objetivo escolhido. Só nesse momento se pedem nome, telemóvel e email.
+2. **Antes/depois interativos.** As 10 fotos foram separadas em antes e depois, e cada uma é um comparador que se arrasta. O do topo anima sozinho para mostrar que é interativo. Há filtros "Só alimentação" e "Alimentação + treino".
+3. **Topo com promessa clara**: "Perde gordura a comer o que gostas", prova social (+50 clientes ativos), CTA principal e um resultado visível logo à primeira vista.
+4. **Venda por etapas**: dor ("O problema nunca foste tu") → método (flexível, personalizado, acompanhado) → serviços → **tabela comparativa** (Step One vs. dieta da internet vs. ginásio sem plano) → como funciona → testemunhos → planos → garantia → equipa → FAQ → CTA final.
+5. **Testemunhos numa conversa de WhatsApp** a correr dentro de um telemóvel, mais citações em destaque.
+6. **Planos** Alimentação, Completo (recomendado) e Treino. Cada botão abre o quiz com o plano já escolhido. Os preços não aparecem.
+7. **"0 fidelização" em destaque** como garantia (cancelar ou pausar com 15 dias de aviso).
+8. **Urgência e recuperação**: barra "Vagas limitadas em <mês atual>", barra fixa com CTA no telemóvel e aviso "Antes de saíres…" no desktop (uma vez por sessão).
+9. **Medição**: `cta_click`, `quiz_open`, `quiz_step`, `quiz_complete`, `generate_lead`, `exit_intent_shown` no dataLayer; `Lead`, `QuizOpen` e `QuizComplete` no Pixel da Meta. Cada lead leva `utm_*`, `fbclid` e `gclid`. No GTM, a conversão principal deve ser `generate_lead`.
 
-| # | Problema | Impacto | Na nova página |
-|---|---|---|---|
-| 1 | **Formulário longo e só no fundo**: 7 campos obrigatórios de uma vez (nome, email, telemóvel, 3 seleções, número 0–10) mais a checkbox | É o maior travão. Pedir os dados pessoais logo no início afasta quem ainda está "só a ver" | **Quiz em 5 passos**: primeiro 4 perguntas de um toque (objetivo → obstáculo → compromisso → investimento) e só no fim nome, telemóvel e email. Barra de progresso e "60 segundos" |
-| 2 | **Hero em slider**: 2 slides a rodar, CTA "Quero começar já!" pequeno, mensagem dividida | Os sliders dispersam a atenção e o 2.º slide quase não é visto | Um só hero com a promessa principal ("Come o que gostas enquanto perdes peso"), mais 3 botões "Qual é o teu objetivo?" que já respondem ao 1.º passo do quiz |
-| 3 | **Página muito pesada**: 11,8 MB e 141 pedidos no mobile, PNGs de 1–2,7 MB, 53 CSS e 43 JS, 11 plugins (incluindo 3 plugins de formulários: Forminator, Elementor Forms e Contact Form 7) | Anúncios pagos a levar tráfego para uma página lenta = leads perdidos antes de a página abrir | **0,23 MB e 9 pedidos** na carga inicial. WebP responsivo, lazy-load, zero plugins |
-| 4 | **Antes/depois um de cada vez** num carrossel, sem contexto | A melhor prova do negócio fica escondida | Carrossel com 3 visíveis no desktop, etiquetas Antes/Depois, duração e tipo de plano, contador e CTA logo abaixo |
-| 5 | **Não explica como funciona** (só aparece numa FAQ fechada) | Incerteza = não preencher | Secção "Como funciona" em 4 passos e secção "O que está incluído" |
-| 6 | **Testemunhos um a um** num slider, com botões "Read more" em inglês e gralhas | Pouca prova social visível | Os 8 testemunhos visíveis ao mesmo tempo, em estilo de mensagem (gralhas de escrita corrigidas) |
-| 7 | **Não fala das dores do cliente** | O visitante não se identifica | Secção "Reconheces-te em alguma destas?" com as objeções que o próprio formulário já recolhe |
-| 8 | **Sem CTA fixo no mobile**, e "VAGAS LIMITADAS" sem link | A maioria das visitas é mobile, e o CTA fica longe | Barra fixa no fundo do mobile (aparece depois do hero e esconde-se no formulário). Todas as faixas "Vagas limitadas" levam ao quiz e mostram o mês atual |
-| 9 | Contraste fraco: texto cinzento-claro em fundo cinzento, texto branco sobre laranja, texto em cima da foto no mobile ("Emagrecimento") | Difícil de ler | Botões laranja com texto escuro (contraste AA), texto sobre fotos só com gradiente escuro por trás |
-| 10 | SEO: sem meta description, título genérico | Menos cliques no Google e nas partilhas | Título, description e Open Graph |
-| 11 | Formulário sem UTMs úteis (só um campo escondido "utm_source") | Não se sabe que anúncio gera leads | Guarda `utm_*`, `fbclid` e `gclid` e envia-os com cada lead. Eventos `quiz_start`, `quiz_step`, `generate_lead` e `cta_click` no dataLayer, e `Lead` no Pixel da Meta |
+Todos os factos vêm do site atual: +50 clientes, sem fidelização com 15 dias de aviso, planos no próprio dia, 4–8 semanas, casa ou ginásio, restrições alimentares, vídeos dos exercícios. Não foram inventados preços, números nem garantias.
 
-Mantive tudo o que o site já prometia (+50 clientes ativos, sem fidelização com 15 dias de aviso, planos no próprio dia, resultados em 4–8 semanas, restrições alimentares, casa ou ginásio). **Não inventei preços, números nem garantias.**
+## Obrigatório antes de pôr anúncios
 
-## Antes de publicar (obrigatório)
+No fim do `index.html`, no bloco `CONFIG`:
 
-1. **Destino dos leads**: em `index.html`, no bloco `CONFIG` no fim do ficheiro, preencher `formEndpoint` com um URL de webhook que aceite POST JSON. Sem isto, o formulário mostra um erro e **não guarda nada**. Opções:
-   - **SureTriggers** (já está instalado no WordPress): criar um "Webhook trigger" e ligá-lo ao destino atual dos leads (email, Google Sheets, CRM).
-   - Make, Zapier ou n8n, com a mesma lógica.
-   - Campos enviados: `nome, telemovel, email, objetivo, obstaculo, comprometimento, investimento, consentimento, pagina, referrer, enviado_em, utm_*`.
-2. **WhatsApp** (recomendado): preencher `whatsapp` com o número em formato `3519XXXXXXXX`. Aparece um botão WhatsApp na barra do mobile e no ecrã de "Candidatura recebida". Com o número vazio, os botões ficam escondidos.
-3. **Tracking**: `gtmId` (GTM-TR3396WB) e `metaPixelId` (1332430662011467) já vêm do site atual. Só carregam depois de o visitante aceitar cookies. No GTM, criar uma conversão com o evento `generate_lead`.
-4. **Confirmar os textos**: a secção "Como funciona" (passo 2, "a equipa contacta-te") e a FAQ "O que acontece depois de enviar?" descrevem um contacto após a candidatura. Confirmar que é assim que trabalham.
-5. **Autorização das fotos e testemunhos**: a página diz que as imagens foram "partilhadas por clientes com autorização". Confirmar que é verdade para todas.
+- **`formEndpoint`**: URL de um webhook que receba POST JSON (SureTriggers, Make, Zapier, n8n ou CRM). **Sem isto, o formulário mostra um erro e o lead não fica guardado.**
+  Campos enviados: `nome, telemovel, email, objetivo, obstaculo, plano, comprometimento, investimento, plano_recomendado, consentimento, pagina, referrer, enviado_em, utm_*`.
+- **`whatsapp`**: número no formato `3519XXXXXXXX`. Ativa o botão WhatsApp no telemóvel e no ecrã final.
+- `gtmId` e `metaPixelId` já vêm do site atual e só carregam depois de o visitante aceitar cookies.
 
-## Como publicar no WordPress
+## A confirmar
 
-- **Opção A (a mais rápida e leve)**: carregar a pasta `step-one/` para o alojamento (por exemplo `step-one.pt/lp/`) e apontar os anúncios para lá.
-- **Opção B**: criar uma página no Elementor com o template "Elementor Canvas" e um widget HTML com o conteúdo de `index.html`, com as imagens carregadas na Biblioteca de Media (atualizar os caminhos `assets/img/...`). Perde parte do ganho de velocidade, porque o WordPress continua a carregar os plugins.
-- Depois de publicar, desativar os plugins de formulários que deixarem de ser usados e o HurryTimer (está carregado mas não é usado).
+- Que a equipa contacta cada pessoa depois do quiz (é o que a página promete).
+- Autorização de todos os clientes para as fotos e testemunhos (o repositório é público: considerar torná-lo privado).
+- Que o plano "só treino" existe (a FAQ original diz que se pode escolher só um dos planos).
 
-## Próximos testes A/B sugeridos
+## Testes A/B sugeridos
 
-- Título do hero: "Come o que gostas enquanto perdes peso" vs. "Perde gordura sem passar fome".
-- Pergunta do investimento: manter como filtro vs. retirar (mais leads, menos qualificados).
-- Mostrar um preço de referência ("a partir de X €/mês"), que costuma qualificar os leads e aumentar a confiança.
+- Título: "Perde gordura a comer o que gostas" vs. "Come o que gostas enquanto perdes peso".
+- Mostrar um preço de referência ("a partir de X €/mês") nos planos.
+- Retirar a pergunta do investimento (mais leads, menos qualificados).
