@@ -211,7 +211,9 @@ var CONFIG = {
   whatsappMsg: 'Olá! Acabei de me candidatar no site da Step One e quero começar.',
   // Tracking (só carrega depois de o visitante aceitar cookies).
   gtmId: 'GTM-TR3396WB',
-  metaPixelId: '1332430662011467'
+  metaPixelId: '1332430662011467',
+  // true = a página está dentro do WordPress: usa o GTM, o Pixel e o aviso de cookies (Complianz) do site.
+  useSiteTracking: true
 };
 /* ==================================================== */
 
@@ -253,8 +255,9 @@ var CONFIG = {
       window.fbq('init', CONFIG.metaPixelId); window.fbq('track', 'PageView');
     }
   }
-  var cookie = $('#cookie'), consent = ls.get('so_consent');
-  if (consent === 'granted') loadTracking();
+  var cookie = $('#cookie'), consent = CONFIG.useSiteTracking ? 'site' : ls.get('so_consent');
+  if (CONFIG.useSiteTracking) cookie.remove();
+  else if (consent === 'granted') loadTracking();
   else if (!consent) setTimeout(function(){ cookie.classList.add('show'); }, 1500);
   Array.prototype.forEach.call(document.querySelectorAll('[data-consent]'), function(b){ b.addEventListener('click', function(){
     var v = b.getAttribute('data-consent'); ls.set('so_consent', v); cookie.classList.remove('show'); if (v === 'granted') loadTracking();

@@ -70,6 +70,8 @@ def build(src_file, out_file):
         '<style>' + RESET + scope_css(css) + '</style>\n'
         f'<div id="{SCOPE[1:]}">\n' + body + '\n</div>\n'
     ).replace('assets/', BASE + 'assets/')
+    # Dentro do WordPress: usar o GTM, o Pixel e o aviso de cookies (Complianz) do site
+    out = out.replace('useSiteTracking: false', 'useSiteTracking: true')
     open(out_file, 'w', encoding='utf-8').write(out)
     print(f'{out_file}: {len(out)} caracteres')
 

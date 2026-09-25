@@ -864,11 +864,14 @@ var CONFIG = {
   // Tracking (só carrega depois de o visitante aceitar cookies).
   gtmId: 'GTM-TR3396WB',
   metaPixelId: '1332430662011467',
+  // true = a página está dentro do WordPress: usa o GTM, o Pixel e o aviso de cookies (Complianz) do site,
+  // sem carregar os seus. Os eventos (lead, quiz…) continuam a ser enviados.
+  useSiteTracking: false,
   // Aviso "Antes de saíres…" no desktop.
   exitIntent: true,
   // Página de obrigado: depois de enviar, o visitante é levado para aqui (com ?nome=…&plano=…).
   // Vazio = mostra a mensagem de sucesso dentro do quiz.
-  thankYouUrl: ''
+  thankYouUrl: 'https://step-one.pt/obrigado/'
 };
 /* ==================================================== */
 
@@ -941,13 +944,14 @@ var CONFIG = {
       window.fbq('init', CONFIG.metaPixelId); window.fbq('track', 'PageView');
     }
   }
-  var cookie = $('#cookie'), consent = ls.get('so_consent');
-  if (consent === 'granted') loadTracking();
+  var cookie = $('#cookie'), consent = CONFIG.useSiteTracking ? 'site' : ls.get('so_consent');
+  if (CONFIG.useSiteTracking) { cookie.remove(); var co = document.getElementById('cookie-open'); if (co) co.remove(); }
+  else if (consent === 'granted') loadTracking();
   else if (!consent) setTimeout(function(){ cookie.classList.add('show'); }, 1500);
   $$('[data-consent]').forEach(function(b){ b.addEventListener('click', function(){
     var v = b.getAttribute('data-consent'); ls.set('so_consent', v); cookie.classList.remove('show'); if (v === 'granted') loadTracking();
   }); });
-  $('#cookie-open').addEventListener('click', function(e){ e.preventDefault(); cookie.classList.add('show'); });
+  if ($('#cookie-open')) $('#cookie-open').addEventListener('click', function(e){ e.preventDefault(); cookie.classList.add('show'); });
 
   /* ---------- Resultados (antes/depois) ---------- */
   var RESULTS = [
