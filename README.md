@@ -48,3 +48,29 @@ Usar o ficheiro **`elementor.html`**, não o `index.html`. É a mesma página, m
 3. Colar todo o conteúdo de `elementor.html` e publicar.
 
 Se o repositório passar a privado, o CDN deixa de funcionar. Nesse caso, carregar a pasta `assets/` para o WordPress (ou usar o link da Vercel) e substituir o endereço base no ficheiro.
+
+## Campos ocultos (origem do lead)
+
+Cada lead enviado para o Make leva sempre estes campos, mesmo que vazios:
+
+| Campo | Vem de | Exemplo |
+|---|---|---|
+| `data` | data e hora do envio | 25/09/2026 17:35 |
+| `source` | `utm_source` (ou `facebook`/`google` se só houver fbclid/gclid, o site de origem, ou `direto`) | facebook |
+| `medium` | `utm_medium` | paid |
+| `campanha` | `utm_campaign` | setembro_leads |
+| `conjunto` | `utm_term` | mulheres_25_45 |
+| `criativo` | `utm_content` | video_antes_depois |
+| `fbclid`, `gclid`, `landing`, `referrer` | URL e página de origem | |
+
+Os UTMs ficam guardados no browser, por isso contam mesmo que a pessoa volte mais tarde sem eles.
+
+**Parâmetros de URL para os anúncios da Meta** (em "Parâmetros de URL" do anúncio):
+
+```
+utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}
+```
+
+## Gerar a versão do Elementor
+
+Depois de alterar `index.html`, correr `python3 build-elementor.py` para atualizar `elementor.html`. Este ficheiro isola a página dos estilos do tema: tudo fica dentro de `<div id="so">`, com os estilos do WordPress anulados.

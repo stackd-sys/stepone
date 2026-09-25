@@ -810,6 +810,17 @@ dialog.exit .skipx{background:none;border:0;color:var(--mut-d);font-weight:700;m
           <div class="fld"><label for="f-email">Email</label><input id="f-email" name="email" type="email" inputmode="email" autocomplete="email"><span class="er">Indica um email válido.</span></div>
           <label class="cons" id="cons"><input type="checkbox" id="f-cons" name="consentimento"><span>Aceito a <a href="https://step-one.pt/politica-de-privacidade/" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo a Step One a contactar-me sobre o acompanhamento.</span></label>
           <div class="hp" aria-hidden="true"><label>Não preencher <input name="empresa" tabindex="-1" autocomplete="off"></label></div>
+          <!-- Campos ocultos: origem do lead (preenchidos automaticamente a partir dos UTMs) -->
+          <input type="hidden" name="data">
+          <input type="hidden" name="source">
+          <input type="hidden" name="medium">
+          <input type="hidden" name="campanha">
+          <input type="hidden" name="conjunto">
+          <input type="hidden" name="criativo">
+          <input type="hidden" name="fbclid">
+          <input type="hidden" name="gclid">
+          <input type="hidden" name="landing">
+          <input type="hidden" name="referrer">
         </fieldset>
         <div class="qz-nav" id="qz-nav">
           <button type="button" class="qz-back" id="qz-back" hidden>← Voltar</button>
@@ -882,10 +893,27 @@ var CONFIG = {
   var attribution = {};
   try { attribution = JSON.parse(ls.get('so_attr') || '{}'); } catch(e){}
   if (utmKeys.some(function(k){ return qs.get(k); })) {
-    attribution = { landing: location.href };
+    attribution = { landing: location.href, referrer: document.referrer || '' };
     utmKeys.forEach(function(k){ if (qs.get(k)) attribution[k] = qs.get(k); });
     ls.set('so_attr', JSON.stringify(attribution));
   }
+  // Origem "legível" para os campos ocultos: source, campanha, criativo…
+  function refHost(){
+    try { var h = new URL(attribution.referrer || document.referrer).hostname.replace(/^www\./, ''); return h === location.hostname.replace(/^www\./, '') ? '' : h; } catch(e){ return ''; }
+  }
+  var origin = {
+    source: attribution.utm_source || (attribution.fbclid ? 'facebook' : attribution.gclid ? 'google' : refHost() || 'direto'),
+    medium: attribution.utm_medium || (attribution.fbclid || attribution.gclid ? 'paid' : refHost() ? 'referral' : '(none)'),
+    campanha: attribution.utm_campaign || '',
+    conjunto: attribution.utm_term || '',
+    criativo: attribution.utm_content || '',
+    fbclid: attribution.fbclid || '',
+    gclid: attribution.gclid || '',
+    landing: attribution.landing || location.href.split('#')[0],
+    referrer: attribution.referrer || document.referrer || ''
+  };
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function dataPT(d){ return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
 
   /* ---------- WhatsApp ---------- */
   var waUrl = CONFIG.whatsapp ? 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(CONFIG.whatsappMsg) : '';
@@ -1124,9 +1152,12 @@ var CONFIG = {
       plano_recomendado: recommended,
       consentimento: true,
       pagina: location.href.split('#')[0],
-      referrer: document.referrer || '',
       enviado_em: new Date().toISOString()
-    }, attribution);
+    });
+    // Campos ocultos do formulário (data, source, campanha, criativo…) vão sempre, mesmo vazios
+    form.elements.data.value = dataPT(new Date());
+    Object.keys(origin).forEach(function(k){ form.elements[k].value = origin[k]; });
+    ['data'].concat(Object.keys(origin)).forEach(function(k){ lead[k] = form.elements[k].value; });
     var label = $('#qz-submit-t');
     btnSubmit.disabled = true; label.textContent = 'A enviar…';
     send(lead).then(function(){
@@ -1150,6 +1181,7 @@ var CONFIG = {
     return fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(lead) })
       .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
   }
+  Object.keys(origin).forEach(function(k){ form.elements[k].value = origin[k]; });
   show(1, false);
 
   /* ---------- Exit intent (só desktop, uma vez por sessão) ---------- */
