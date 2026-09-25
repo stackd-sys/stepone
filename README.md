@@ -38,3 +38,13 @@ No fim do `index.html`, no bloco `CONFIG`:
 - Título: "Perde gordura a comer o que gostas" vs. "Come o que gostas enquanto perdes peso".
 - Mostrar um preço de referência ("a partir de X €/mês") nos planos.
 - Retirar a pergunta do investimento (mais leads, menos qualificados).
+
+## Colar no WordPress (Elementor)
+
+Usar o ficheiro **`elementor.html`**, não o `index.html`. É a mesma página, mas com as imagens e as fontes em endereços absolutos (CDN jsDelivr, a partir deste repositório). Com o `index.html` as imagens não aparecem, porque os caminhos `assets/img/...` passam a apontar para `step-one.pt/assets/...`, que não existe.
+
+1. Criar uma página nova e, em **Modelo**, escolher **Elementor Canvas** (sem cabeçalho nem rodapé do tema).
+2. Adicionar um contentor em **largura total**, sem padding, e dentro dele um widget **HTML**.
+3. Colar todo o conteúdo de `elementor.html` e publicar.
+
+Se o repositório passar a privado, o CDN deixa de funcionar. Nesse caso, carregar a pasta `assets/` para o WordPress (ou usar o link da Vercel) e substituir o endereço base no ficheiro.

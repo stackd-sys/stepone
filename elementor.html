@@ -1,0 +1,1158 @@
+<!-- Step One: versão para colar num widget HTML do Elementor (template "Elementor Canvas"). Imagens e fontes vêm de https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/ -->
+<style>
+@font-face{font-family:"Raleway";font-style:normal;font-display:swap;font-weight:100 900;src:url(https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/fonts/raleway-latin.woff2) format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Raleway";font-style:normal;font-display:swap;font-weight:100 900;src:url(https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/fonts/raleway-latin-ext.woff2) format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+:root{
+  --o:#FC8424; --o2:#FF9A45; --o-deep:#D9640A;
+  --bg:#0F1216; --bg2:#161A20; --bg3:#1E232B; --line-d:rgba(255,255,255,.1);
+  --tx-d:#F5F3EE; --mut-d:#A9B0BA;
+  --cream:#F4F1EA; --ink:#14181D; --ink2:#39414B; --mut:#626A74; --line:#E4DFD3;
+  --ok:#22C55E; --err:#E5484D;
+  --r:24px; --r2:16px;
+  --wrap:1200px;
+  --sh:0 30px 60px -30px rgba(0,0,0,.55);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{overflow-x:clip;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx-d);font:400 17px/1.65 "Raleway",system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font-family:inherit}
+h1,h2,h3{margin:0 0 .5em;line-height:1.1;letter-spacing:-.025em;font-weight:700}
+b,strong{font-weight:600}
+h1{font-size:clamp(2.4rem,5.4vw,4.3rem)}
+h2{font-size:clamp(1.85rem,3.8vw,2.9rem)}
+h3{font-size:1.22rem;letter-spacing:-.01em;line-height:1.25;font-weight:600}
+p{margin:0 0 1em}
+.wrap{width:min(100% - 32px,var(--wrap));margin-inline:auto}
+.hl{color:var(--o)}
+.mark{background:linear-gradient(transparent 62%,rgba(252,132,36,.55) 62%);padding:0 .08em}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin-bottom:14px}
+.eyebrow::before{content:"";width:22px;height:2px;background:currentColor}
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:999;background:#fff;color:#000;padding:8px 12px;border-radius:8px}
+:focus-visible{outline:3px solid var(--o);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:0 28px;border:0;border-radius:999px;background:var(--o);color:#14181D;font:700 1.02rem/1.15 "Raleway",sans-serif;letter-spacing:-.01em;text-decoration:none;cursor:pointer;box-shadow:0 14px 34px -12px rgba(252,132,36,.75),inset 0 -3px 0 rgba(0,0,0,.14);transition:transform .15s,box-shadow .15s,background .15s;text-align:center}
+.btn:hover{transform:translateY(-2px);background:var(--o2)}
+.btn .arr{transition:transform .15s}
+.btn:hover .arr{transform:translateX(4px)}
+.btn:disabled{opacity:.7;cursor:wait}
+.btn-xl{min-height:66px;padding:0 34px;font-size:1.12rem}
+.btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+.btn-ghost:hover{background:rgba(127,127,127,.1)}
+.btn-wa{background:#25D366;color:#063B1C;box-shadow:0 14px 30px -14px rgba(37,211,102,.8)}
+.btn-wa:hover{background:#3BE07A}
+.btn[hidden]{display:none}
+.pulse{animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(252,132,36,.55),0 14px 34px -12px rgba(252,132,36,.75)}70%{box-shadow:0 0 0 16px rgba(252,132,36,0),0 14px 34px -12px rgba(252,132,36,.75)}100%{box-shadow:0 0 0 0 rgba(252,132,36,0),0 14px 34px -12px rgba(252,132,36,.75)}}
+.under{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:.88rem;font-weight:700;color:var(--mut-d)}
+.under > span::before{content:"✓";color:var(--o);margin-right:6px;font-weight:700}
+
+/* ---------- Announcement + header ---------- */
+.ann{background:var(--o);color:#14181D;font-weight:600;font-size:.9rem;text-align:center;padding:9px 16px;line-height:1.35}
+.ann a{text-decoration:underline;text-underline-offset:3px}
+.ann .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#14181D;margin-right:8px;vertical-align:middle;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.hdr{position:sticky;top:0;z-index:40;background:rgba(15,18,22,.85);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line-d)}
+.hdr .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+.logo{font-weight:700;font-size:1.45rem;letter-spacing:-.05em;text-decoration:none}
+.logo b{color:var(--o)}
+.nav{display:flex;gap:26px;font-weight:700;font-size:.95rem}
+.nav a{text-decoration:none;color:var(--mut-d)}
+.nav a:hover{color:#fff}
+.hdr .btn{min-height:46px;padding:0 20px;font-size:.95rem;box-shadow:none}
+@media (max-width:900px){.nav{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:clamp(40px,7vw,90px) 0 clamp(56px,7vw,96px);overflow:hidden}
+.hero::before{content:"";position:absolute;right:-20%;top:-30%;width:70vw;height:70vw;max-width:900px;max-height:900px;background:radial-gradient(closest-side,rgba(252,132,36,.28),transparent 70%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(30px,5vw,70px);align-items:center}
+.hero h1{margin-bottom:.3em}
+.hero .sub{font-size:clamp(1.08rem,1.6vw,1.28rem);color:var(--mut-d);max-width:34em}
+.hero .sub b{color:var(--tx-d)}
+.proof-row{display:flex;align-items:center;gap:14px;margin:26px 0 28px}
+.avatars{display:flex}
+.avatars span{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:.8rem;font-weight:700;color:#14181D;border:3px solid var(--bg);margin-left:-10px;background:var(--o)}
+.avatars span:first-child{margin-left:0}
+.avatars span:nth-child(2){background:#FFC58F}.avatars span:nth-child(3){background:#F4F1EA}.avatars span:nth-child(4){background:#FFB066}.avatars span:nth-child(5){background:#fff}
+.proof-row .stars{color:var(--o);letter-spacing:2px;font-size:1rem;line-height:1}
+.proof-row small{display:block;font-weight:700;color:var(--mut-d);font-size:.9rem}
+.proof-row small b{color:#fff}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero-visual{position:relative;justify-self:center;width:min(100%,400px)}
+.float{position:absolute;z-index:5;background:#fff;color:var(--ink);border-radius:16px;padding:12px 14px;box-shadow:var(--sh);font-size:.85rem;font-weight:700;line-height:1.3;pointer-events:none}
+.float.f1{left:-40px;top:10%;display:flex;align-items:center;gap:10px}
+.float.f1 .ic{width:38px;height:38px;border-radius:12px;background:var(--o);display:grid;place-items:center;font-size:1.2rem}
+.float.f1 strong{display:block;font-size:1.05rem;font-weight:700}
+.float.f2{right:-36px;bottom:16%;max-width:220px;border-radius:16px 16px 4px 16px;background:#DCF8C6}
+.float.f2 em{display:block;font-style:normal;font-size:.72rem;color:#3d6b2a;font-weight:600;margin-top:4px}
+@media (max-width:980px){.hero-grid{grid-template-columns:1fr}.hero-visual{width:min(100%,340px)}.float.f1{left:-12px}.float.f2{right:-12px}}
+@media (max-width:520px){.hero-ctas .btn{width:100%}.hero-ctas .btn-ghost{display:none}.float.f2{max-width:180px;font-size:.78rem}}
+
+/* ---------- Compare slider ---------- */
+.cmp{position:relative;border-radius:var(--r);overflow:hidden;background:#222;aspect-ratio:9/16;box-shadow:var(--sh);isolation:isolate;--pos:50%;user-select:none;-webkit-user-select:none}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 38%;pointer-events:none}
+.cmp .after{clip-path:inset(0 0 0 var(--pos))}
+.cmp .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:#fff;z-index:2;pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.4)}
+.cmp .handle::after{content:"◀ ▶";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:.6rem;letter-spacing:2px;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.cmp input[type=range]{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:4;touch-action:pan-y}
+.cmp .lbl{position:absolute;top:12px;z-index:3;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:6px 10px;border-radius:999px;pointer-events:none}
+.cmp .lbl.b{left:12px;background:rgba(15,18,22,.8);color:#fff}
+.cmp .lbl.a{right:12px;background:var(--o);color:#14181D}
+.cmp .cap{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:44px 14px 14px;background:linear-gradient(transparent,rgba(10,12,15,.9));pointer-events:none}
+.cmp .cap strong{display:block;font-size:1.5rem;font-weight:700;letter-spacing:-.03em;line-height:1.05;color:#fff}
+.cmp .cap span{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#FFC58F}
+.drag-hint{position:absolute;z-index:3;left:50%;top:calc(50% + 38px);transform:translateX(-50%);background:rgba(15,18,22,.85);color:#fff;font-size:.75rem;font-weight:600;padding:6px 12px;border-radius:999px;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+.cmp.touched .drag-hint{opacity:0}
+
+/* ---------- Marquee ---------- */
+.marq-wrap{overflow:hidden;padding:12px 0;margin:-12px 0}
+.marq{background:var(--o);color:#14181D;overflow:hidden;padding:16px 0;transform:rotate(-1.2deg);margin:0 -10px;position:relative;z-index:2}
+.marq-in{display:flex;gap:40px;width:max-content;animation:marq 38s linear infinite;font-weight:700;font-size:1.15rem;text-transform:uppercase;letter-spacing:.02em;white-space:nowrap}
+.marq-in span::after{content:"✦";margin-left:40px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- Sections ---------- */
+section{scroll-margin-top:80px}
+.sec{padding:clamp(70px,10vw,130px) 0}
+.light{background:var(--cream);color:var(--ink)}
+.light .eyebrow,.white .eyebrow{color:var(--o-deep)}
+.white{background:#fff;color:var(--ink)}
+.head{max-width:780px;margin:0 auto clamp(36px,5vw,56px);text-align:center}
+.head p{font-size:1.12rem;color:var(--mut-d);margin:0 auto;max-width:40em}
+.light .head p,.white .head p{color:var(--mut)}
+.cta-center{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:clamp(36px,5vw,54px);text-align:center}
+.cta-center small{font-weight:700;color:var(--mut-d);font-size:.9rem}
+
+/* ---------- Results wall ---------- */
+.filters{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{border:2px solid var(--line-d);background:transparent;color:var(--tx-d);font-weight:600;font-size:.92rem;padding:10px 18px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed=true]{background:#fff;color:var(--ink);border-color:#fff}
+.wall{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.wall .cmp{border-radius:18px}
+.wall .cmp[hidden]{display:none}
+.wall-more{display:none}
+.disc{font-size:.8rem;color:var(--mut-d);text-align:center;margin-top:18px}
+@media (max-width:1100px){.wall{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:820px){.wall{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.wall.collapsed .cmp.extra{display:none}.wall-more{display:flex;justify-content:center;margin-top:18px}.cmp .cap strong{font-size:1.2rem}}
+
+/* ---------- Problem / method ---------- */
+.pain{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.pain .card{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:26px}
+.pain .num{font-size:2.6rem;font-weight:700;color:#E3DCCD;line-height:1;letter-spacing:-.05em;margin-bottom:8px}
+.pain p{color:var(--mut);margin:0}
+.turn{margin:clamp(50px,7vw,80px) auto 0;max-width:960px;text-align:center}
+.turn h3{font-size:clamp(1.25rem,2.2vw,1.6rem);letter-spacing:-.015em;font-weight:500;line-height:1.35;max-width:760px;margin-inline:auto}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:34px}
+.pillar{background:var(--ink);color:#fff;border-radius:var(--r2);padding:28px 24px;text-align:left}
+.pillar .i{width:52px;height:52px;border-radius:14px;background:rgba(252,132,36,.14);color:var(--o);display:grid;place-items:center;margin-bottom:18px}
+.pillar .i svg{width:26px;height:26px}
+.pillar h3{font-size:1.15rem;font-weight:600;margin-bottom:.4em}
+.pillar p{color:#B8BFC8;margin:0;font-size:.96rem}
+@media (max-width:860px){.pain,.pillars{grid-template-columns:1fr}}
+
+/* ---------- Services split ---------- */
+.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.svc{position:relative;border-radius:var(--r);overflow:hidden;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;padding:30px;color:#fff;isolation:isolate}
+.svc img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s}
+.svc:hover img{transform:scale(1.04)}
+.svc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,12,15,0) 15%,rgba(10,12,15,.7) 48%,rgba(10,12,15,.97) 100%);z-index:-1}
+.svc .tag{align-self:flex-start;background:var(--o);color:#14181D;font-weight:700;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+.svc h3{font-size:clamp(1.8rem,3vw,2.5rem);letter-spacing:-.04em;font-weight:700;margin-bottom:.35em}
+.svc p{color:#D5DAE0;margin-bottom:14px}
+.svc ul{list-style:none;padding:0;margin:0 0 22px;display:grid;gap:8px;font-weight:700}
+.svc li::before{content:"✓";color:var(--o);font-weight:700;margin-right:10px}
+.svc .btn{align-self:flex-start}
+@media (max-width:860px){.split{grid-template-columns:1fr}.svc{min-height:580px;padding:24px}}
+
+/* ---------- Comparison ---------- */
+.cmp-table{max-width:980px;margin:0 auto;border-radius:var(--r);overflow:hidden;border:1px solid var(--line-d);background:var(--bg2)}
+.cmp-table table{width:100%;border-collapse:collapse;font-size:1rem}
+.cmp-table th,.cmp-table td{padding:16px 14px;text-align:center;border-bottom:1px solid var(--line-d)}
+.cmp-table tr:last-child td{border-bottom:0}
+.cmp-table th{font-size:.95rem;font-weight:700;vertical-align:bottom}
+.cmp-table th small{display:block;font-weight:700;color:var(--mut-d);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase}
+.cmp-table td:first-child,.cmp-table th:first-child{text-align:left;font-weight:700;padding-left:22px}
+.cmp-table .us{background:rgba(252,132,36,.12);color:#fff}
+.cmp-table th.us{background:var(--o);color:#14181D}
+.cmp-table th.us small{color:#14181D;opacity:.75}
+.yes{color:var(--ok);font-weight:700;font-size:1.25rem}
+.no{color:#6B7380;font-weight:700;font-size:1.1rem}
+.mid{color:#C9A227;font-weight:600;font-size:.85rem}
+@media (max-width:640px){.cmp-table{margin-inline:-16px;border-radius:0;border-left:0;border-right:0}.cmp-table th,.cmp-table td{padding:12px 6px;font-size:.84rem}.cmp-table td:first-child,.cmp-table th:first-child{padding-left:14px}}
+
+/* ---------- Timeline ---------- */
+.tl{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;position:relative}
+.tl::before{content:"";position:absolute;left:4%;right:4%;top:27px;height:2px;background:repeating-linear-gradient(90deg,var(--o) 0 8px,transparent 8px 16px);opacity:.6}
+.st{position:relative}
+.st .dot{width:56px;height:56px;border-radius:50%;background:var(--bg2);border:2px solid var(--o);color:var(--o);display:grid;place-items:center;font-weight:700;font-size:1.3rem;margin-bottom:18px;position:relative}
+.st .when{font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--o);margin-bottom:6px}
+.st p{color:var(--mut-d);margin:0;font-size:.98rem}
+.st.last .dot{background:var(--o);color:#14181D}
+@media (max-width:900px){.tl{grid-template-columns:1fr;gap:26px}.tl::before{left:27px;right:auto;top:10px;bottom:10px;width:2px;height:auto;background:repeating-linear-gradient(180deg,var(--o) 0 8px,transparent 8px 16px)}.st{display:grid;grid-template-columns:56px 1fr;gap:0 18px}.st .dot{grid-row:span 3;margin:0}}
+
+/* ---------- Testimonials ---------- */
+.tst{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,5vw,60px);align-items:center}
+.phone{width:min(100%,350px);margin:0 auto;background:#0B0D10;border-radius:44px;padding:12px;box-shadow:0 40px 80px -30px rgba(0,0,0,.6),inset 0 0 0 2px #2A2F37}
+.screen{border-radius:34px;overflow:hidden;background:#ECE5DD}
+.wa-top{background:#075E54;color:#fff;display:flex;align-items:center;gap:10px;padding:30px 16px 12px}
+.wa-top .av{width:36px;height:36px;border-radius:50%;background:var(--o);display:grid;place-items:center;font-weight:700;color:#14181D;font-size:.8rem}
+.wa-top b{display:block;font-size:.95rem}
+.wa-top small{font-size:.75rem;opacity:.8}
+.chat{height:460px;overflow:hidden;padding:12px 10px;background:#ECE5DD}
+.chat-in{display:flex;flex-direction:column;gap:8px;animation:chat 30s linear infinite}
+.chat:hover .chat-in{animation-play-state:paused}
+@keyframes chat{to{transform:translateY(calc(-50% - 4px))}}
+.msg{align-self:flex-start;max-width:88%;background:#fff;color:#111;border-radius:0 12px 12px 12px;padding:8px 10px 6px;font-size:.88rem;line-height:1.4;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.msg b{display:block;font-size:.78rem;color:var(--o-deep);margin-bottom:2px}
+.msg i{display:block;text-align:right;font-style:normal;font-size:.68rem;color:#7a7a7a;margin-top:2px}
+.quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.q{margin:0;background:var(--bg2);border:1px solid var(--line-d);border-radius:var(--r2);padding:24px}
+.q .stars{color:var(--o);letter-spacing:3px;margin-bottom:10px}
+.q blockquote{margin:0 0 16px;font-size:1.08rem;font-weight:700;line-height:1.45;color:#fff}
+.q figcaption{display:flex;align-items:center;gap:10px;font-weight:600;font-size:.92rem;color:var(--mut-d)}
+.q figcaption span{width:34px;height:34px;border-radius:50%;background:var(--o);color:#14181D;display:grid;place-items:center;font-size:.78rem;font-weight:700}
+.q.big{grid-column:span 2;background:linear-gradient(135deg,#232932,#161A20)}
+.q.big blockquote{font-size:clamp(1.25rem,2.2vw,1.6rem);letter-spacing:-.02em}
+@media (max-width:900px){.tst{grid-template-columns:1fr}.quotes{grid-template-columns:1fr}.q.big{grid-column:auto}}
+
+/* ---------- Plans ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+.plan{position:relative;background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:30px 26px;display:flex;flex-direction:column}
+.plan h3{font-size:1.5rem;margin-bottom:.25em}
+.plan .for{color:var(--mut);font-weight:600;margin-bottom:18px;min-height:3.2em}
+.plan ul{list-style:none;padding:0;margin:0 0 26px;display:grid;gap:10px;flex:1;align-content:start}
+.plan li{padding-left:30px;position:relative;font-weight:700;color:var(--ink2);line-height:1.4}
+.plan li::before{content:"✓";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:#FFE8D4;color:var(--o-deep);display:grid;place-items:center;font-size:.72rem;font-weight:700}
+.plan li.off{color:#A0A6AE;text-decoration:line-through}
+.plan li.off::before{content:"–";background:#EEE;color:#999}
+.plan .btn{width:100%}
+.plan .btn-ghost{color:var(--ink)}
+.plan.best{background:var(--ink);color:#fff;border-color:var(--o);transform:translateY(-12px);box-shadow:0 40px 70px -35px rgba(252,132,36,.6)}
+.plan.best .for{color:#B9C0C9}
+.plan.best li{color:#E9ECEF}
+.plan.best li::before{background:var(--o);color:#14181D}
+.plan .badge{position:absolute;top:-15px;left:50%;transform:translateX(-50%);background:var(--o);color:#14181D;font-weight:700;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;white-space:nowrap}
+.price-note{text-align:center;color:var(--mut);font-weight:600;margin:30px 0 0;font-size:.95rem}
+@media (max-width:900px){.plans{grid-template-columns:1fr;gap:26px}.plan.best{transform:none;order:-1}}
+
+/* ---------- Guarantee ---------- */
+.guar{display:grid;grid-template-columns:auto 1fr auto;gap:28px;align-items:center;background:var(--bg2);border:2px dashed rgba(252,132,36,.5);border-radius:var(--r);padding:clamp(24px,4vw,40px)}
+.seal{width:120px;height:120px;border-radius:50%;background:var(--o);color:#14181D;display:grid;place-items:center;text-align:center;font-weight:700;line-height:1.05;font-size:.95rem;box-shadow:0 0 0 8px rgba(252,132,36,.18)}
+.seal b{display:block;font-size:2.2rem}
+.guar h3{font-size:clamp(1.4rem,2.6vw,1.9rem);font-weight:700;letter-spacing:-.03em;margin-bottom:.3em}
+.guar p{color:var(--mut-d);margin:0}
+@media (max-width:860px){.guar{grid-template-columns:1fr;text-align:center;justify-items:center}}
+
+/* ---------- Team ---------- */
+.team{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,64px);align-items:center}
+.team > div > p{color:var(--mut-d);font-size:1.1rem}
+.team-pics{max-width:460px;justify-self:center;width:100%}
+.team-pics img{border-radius:var(--r);width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;box-shadow:var(--sh)}
+.team ul{list-style:none;padding:0;margin:20px 0 28px;display:grid;gap:12px}
+.team li{display:flex;gap:12px;align-items:center;font-weight:700;color:var(--tx-d)}
+.team li span{flex:none;width:32px;height:32px;border-radius:10px;background:var(--bg3);display:grid;place-items:center;font-size:1rem}
+@media (max-width:860px){.team{grid-template-columns:1fr}.team-pics{order:-1}}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:860px;margin:0 auto;display:grid;gap:10px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:0 22px;transition:box-shadow .2s}
+.faq details[open]{box-shadow:0 20px 40px -30px rgba(0,0,0,.35)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;font-weight:600;font-size:1.06rem;color:var(--ink)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:1.3rem;font-weight:700;transition:transform .2s,background .2s}
+.faq details[open] summary::after{transform:rotate(45deg);background:var(--o);color:#14181D}
+.faq details p{margin:0 0 20px;color:var(--ink2)}
+
+/* ---------- Final ---------- */
+.final{position:relative;overflow:hidden;text-align:center;padding:clamp(80px,11vw,140px) 0}
+.final::before{content:"";position:absolute;left:50%;top:50%;width:900px;height:900px;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(252,132,36,.25),transparent 70%)}
+.final .wrap{position:relative}
+.final h2{font-size:clamp(2.2rem,5vw,3.8rem);max-width:15ch;margin-inline:auto}
+.final p{color:var(--mut-d);font-size:1.15rem;max-width:34em;margin:0 auto 30px}
+.final .under{justify-content:center}
+
+footer{border-top:1px solid var(--line-d);padding:30px 0 120px;font-size:.88rem;color:var(--mut-d)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 26px;justify-content:space-between}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 20px}
+footer a{text-decoration:none}footer a:hover{color:#fff}
+@media (min-width:861px){footer{padding-bottom:30px}}
+
+/* ---------- Sticky mobile ---------- */
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:45;display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(15,18,22,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line-d);transform:translateY(110%);transition:transform .25s}
+.sticky.show{transform:none}
+.sticky .btn{flex:1;min-height:54px;box-shadow:none;font-size:1rem}
+.sticky .btn-wa{flex:0 0 54px;padding:0}
+.sticky .btn-wa svg{width:26px;height:26px}
+@media (max-width:860px){.sticky{display:flex}}
+
+/* ---------- Quiz modal ---------- */
+dialog.quiz{width:min(100% - 32px,640px);max-width:100%;max-height:calc(100% - 32px);margin:auto;padding:0;border:0;border-radius:28px;background:#fff;color:var(--ink);box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden}
+dialog.quiz::backdrop{background:rgba(8,10,12,.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+dialog.quiz[open]{animation:pop .28s ease}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.qz{display:flex;flex-direction:column;max-height:calc(100vh - 32px)}
+.qz-top{display:flex;align-items:center;gap:14px;padding:18px 22px 0}
+.qz-top .logo{font-size:1.15rem;color:var(--ink)}
+.qz-bar{flex:1;height:8px;background:#EEE9DE;border-radius:99px;overflow:hidden}
+.qz-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--o),var(--o2));border-radius:99px;transition:width .4s ease}
+.qz-x{width:40px;height:40px;border-radius:50%;border:0;background:#F1EEE6;color:var(--ink);font-size:1.3rem;cursor:pointer;flex:none}
+.qz-body{padding:24px 26px 26px;overflow-y:auto}
+.qs{border:0;margin:0;padding:0;min-width:0}
+.qs[hidden]{display:none}
+.qs .k{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--o-deep);margin-bottom:8px}
+.qs legend{float:left;width:100%;font-size:clamp(1.45rem,3.4vw,1.9rem);font-weight:700;letter-spacing:-.03em;line-height:1.12;padding:0;margin-bottom:6px}
+.qs legend + *{clear:both}
+.qs .hint{color:var(--mut);margin:0 0 20px;font-size:.98rem}
+.opts{display:grid;gap:10px}
+.opt{position:relative;display:block}
+.opt input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
+.opt > span{display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 18px;border:2px solid #E7E2D6;border-radius:16px;font-weight:600;font-size:1.02rem;background:#fff;transition:border-color .15s,background .15s,transform .1s}
+.opt .e{font-size:1.5rem;width:32px;text-align:center;flex:none}
+.opt small{display:block;font-weight:600;color:var(--mut);font-size:.84rem}
+.opt:hover > span{border-color:var(--o)}
+.opt input:checked + span{border-color:var(--o);background:#FFF3E8}
+.opt input:focus-visible + span{outline:3px solid var(--o);outline-offset:2px}
+.opt input:active + span{transform:scale(.99)}
+.scale{grid-template-columns:repeat(11,minmax(0,1fr));gap:6px}
+.scale .opt > span{justify-content:center;padding:0;min-height:56px;font-size:1.1rem}
+.scale-l{display:flex;justify-content:space-between;font-size:.8rem;font-weight:600;color:var(--mut);margin-top:8px}
+@media (max-width:560px){.scale{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.qz-nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px}
+.qz-back{background:none;border:0;color:var(--mut);font-weight:600;cursor:pointer;padding:10px 0;text-decoration:underline;text-underline-offset:3px;white-space:nowrap;font-size:.95rem}
+.qz-back[hidden]{visibility:hidden;display:inline}
+.qz-err{display:none;color:var(--err);font-weight:600;font-size:.92rem;margin-top:12px}
+.qz-err.show{display:block}
+.anl{text-align:center;padding:30px 0 10px}
+.spin{width:64px;height:64px;border-radius:50%;border:6px solid #F1EEE6;border-top-color:var(--o);margin:0 auto 22px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.anl ul{list-style:none;padding:0;margin:18px auto 0;display:grid;gap:10px;max-width:320px;text-align:left;font-weight:700;color:var(--mut)}
+.anl li{opacity:.35;transition:opacity .3s}
+.anl li.on{opacity:1;color:var(--ink)}
+.anl li::before{content:"○ ";color:var(--o)}
+.anl li.on::before{content:"✓ ";font-weight:700}
+.res{display:grid;grid-template-columns:130px 1fr;gap:18px;align-items:center;background:var(--ink);color:#fff;border-radius:20px;padding:14px;margin-bottom:22px}
+.res .mini{border-radius:14px;overflow:hidden;aspect-ratio:3/4;display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#000}
+.res .mini img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.res .k{color:var(--o);font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.res h3{font-size:1.35rem;margin:.2em 0 .4em;font-weight:700}
+.res ul{list-style:none;padding:0;margin:0;display:grid;gap:5px;font-size:.9rem;font-weight:600;color:#D8DDE3}
+.res li::before{content:"✓ ";color:var(--o);font-weight:700}
+@media (max-width:520px){.res{grid-template-columns:88px 1fr;gap:12px;padding:12px}.res h3{font-size:1.15rem}.res ul{font-size:.84rem}}
+.fld{margin-bottom:12px}
+.fld label{display:block;font-weight:600;font-size:.92rem;margin-bottom:6px}
+.fld input{width:100%;min-height:56px;border:2px solid #E7E2D6;border-radius:14px;padding:0 16px;font:600 1.02rem "Raleway",sans-serif;color:var(--ink);background:#fff}
+.fld input:focus{outline:none;border-color:var(--o)}
+.fld .er{display:none;color:var(--err);font-size:.84rem;font-weight:600;margin-top:4px}
+.fld.bad input{border-color:var(--err)}
+.fld.bad .er{display:block}
+.tel{display:flex}
+.tel .pre{display:grid;place-items:center;padding:0 14px;border:2px solid #E7E2D6;border-right:0;border-radius:14px 0 0 14px;background:#F6F3EC;font-weight:700}
+.tel input{border-radius:0 14px 14px 0}
+.cons{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--mut);line-height:1.45;margin:8px 0 4px;font-weight:600}
+.cons input{width:22px;height:22px;flex:none;accent-color:var(--o);margin:0}
+.cons.bad{color:var(--err)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.safe{text-align:center;font-size:.82rem;font-weight:700;color:var(--mut);margin:12px 0 0}
+.done{text-align:center;padding:10px 0}
+.done .ok{width:84px;height:84px;border-radius:50%;background:var(--o);color:#14181D;display:grid;place-items:center;margin:0 auto 18px;font-size:2.4rem;font-weight:700}
+.done h3{font-size:1.8rem;font-weight:700}
+.done p{color:var(--mut)}
+.done .next{background:#F6F3EC;border-radius:16px;padding:16px;text-align:left;margin:18px 0;font-weight:700;color:var(--ink2);font-size:.95rem}
+.done .next ol{margin:6px 0 0;padding-left:20px}
+@media (max-width:640px){dialog.quiz{width:100%;height:100%;max-height:100%;border-radius:0}.qz{max-height:100%;height:100%}.qz-body{flex:1;padding:22px 18px 28px}}
+
+/* ---------- Exit intent + cookies ---------- */
+dialog.exit{width:min(100% - 32px,480px);border:0;border-radius:24px;padding:34px 30px;text-align:center;background:var(--bg2);color:#fff;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+dialog.exit::backdrop{background:rgba(8,10,12,.7)}
+dialog.exit h3{font-size:1.8rem;font-weight:700;letter-spacing:-.03em}
+dialog.exit p{color:var(--mut-d)}
+dialog.exit .btn{width:100%;margin-top:6px}
+dialog.exit .skipx{background:none;border:0;color:var(--mut-d);font-weight:700;margin-top:12px;cursor:pointer;text-decoration:underline}
+.cookie{position:fixed;left:16px;right:16px;bottom:16px;z-index:60;max-width:460px;margin-left:auto;background:#fff;color:var(--ink);border-radius:18px;padding:16px 18px;box-shadow:var(--sh);font-size:.86rem;font-weight:600;display:none}
+.cookie.show{display:block}
+.cookie p{margin:0 0 12px;color:var(--ink2)}
+.cookie .row{display:flex;gap:8px}
+.cookie button{flex:1;min-height:42px;border-radius:999px;border:0;font:600 .9rem "Raleway",sans-serif;cursor:pointer}
+.cookie .c-yes{background:var(--o);color:#14181D}
+.cookie .c-no{background:#F1EEE6;color:var(--ink)}
+@media (max-width:860px){.cookie{bottom:90px}}
+</style>
+<a class="skip" href="#main">Saltar para o conteúdo</a>
+
+<div class="ann"><span class="dot" aria-hidden="true"></span><b>Vagas limitadas <span data-month></span>.</b> <a href="#" data-quiz data-cta="announcement">Vê em 60 segundos se ainda há vaga para ti →</a></div>
+
+<header class="hdr">
+  <div class="wrap">
+    <a class="logo" href="#main">step one<b>.</b></a>
+    <nav class="nav" aria-label="Secções">
+      <a href="#resultados">Resultados</a>
+      <a href="#metodo">Método</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#planos">Planos</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <button class="btn" type="button" data-quiz data-cta="header">Começar <span class="arr">→</span></button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Acompanhamento online de alimentação e treino</span>
+      <h1>Perde gordura <span class="mark">a comer o que gostas.</span></h1>
+      <p class="sub">Sem dietas extremas e sem passar fome. Recebes um <b>plano de alimentação e treino feito só para ti</b>, ajustado todas as semanas, e tens <b>alguém a acompanhar-te todos os dias</b> até chegares lá.</p>
+      <div class="proof-row">
+        <div class="avatars" aria-hidden="true"><span>AN</span><span>DS</span><span>MF</span><span>LV</span><span>CS</span></div>
+        <div><div class="stars" aria-hidden="true">★★★★★</div><small><b>+50 clientes ativos</b> a transformar o corpo agora</small></div>
+      </div>
+      <div class="hero-ctas">
+        <button class="btn btn-xl pulse" type="button" data-quiz data-cta="hero">Descobrir o meu plano ideal <span class="arr">→</span></button>
+        <a class="btn btn-ghost btn-xl" href="#resultados">Ver resultados</a>
+      </div>
+      <div class="under"><span>60 segundos</span><span>Sem compromisso</span><span>Sem fidelização</span></div>
+    </div>
+    <div class="hero-visual">
+      <div class="float f1"><span class="ic" aria-hidden="true">🔥</span><span><strong>5 semanas</strong>só com plano de alimentação</span></div>
+      <div class="cmp" data-cmp>
+        <img src="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/r10-antes-560.webp" width="560" height="1008" alt="Cliente Step One antes do acompanhamento">
+        <img class="after" src="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/r10-depois-560.webp" width="560" height="1016" alt="A mesma cliente 5 semanas depois" fetchpriority="high">
+        <span class="lbl b">Antes</span><span class="lbl a">Depois</span>
+        <div class="handle" aria-hidden="true"></div>
+        <span class="drag-hint" aria-hidden="true">↔ Arrasta para comparar</span>
+        <input type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois">
+      </div>
+      <div class="float f2">"Sinto-me muito menos inchada e muito mais disposta. Já começo a notar na roupa 😊"<em>Ana N., cliente Step One</em></div>
+    </div>
+  </div>
+</section>
+
+<div class="marq-wrap" aria-hidden="true"><div class="marq"><div class="marq-in">
+  <span>Come o que gostas</span><span>Plano 100% personalizado</span><span>Acompanhamento diário</span><span>Treino em casa ou no ginásio</span><span>Plano pronto no próprio dia</span><span>Sem fidelização</span>
+  <span>Come o que gostas</span><span>Plano 100% personalizado</span><span>Acompanhamento diário</span><span>Treino em casa ou no ginásio</span><span>Plano pronto no próprio dia</span><span>Sem fidelização</span>
+</div></div></div>
+
+<!-- RESULTADOS -->
+<section class="sec" id="resultados">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Resultados reais</span>
+      <h2>Não há milagres. <span class="hl">Há método.</span></h2>
+      <p>Pessoas normais, com vidas normais, que continuaram a comer o que gostam. Arrasta cada foto para veres a diferença.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filtrar resultados">
+      <button class="chip" type="button" aria-pressed="true" data-filter="all">Todos</button>
+      <button class="chip" type="button" aria-pressed="false" data-filter="food">Só alimentação</button>
+      <button class="chip" type="button" aria-pressed="false" data-filter="full">Alimentação + treino</button>
+    </div>
+    <div class="wall collapsed" id="wall"></div>
+    <div class="wall-more"><button class="btn btn-ghost" type="button" id="more">Ver mais resultados ↓</button></div>
+    <p class="disc">Fotografias partilhadas por clientes Step One. Os resultados variam de pessoa para pessoa.</p>
+    <div class="cta-center">
+      <button class="btn btn-xl" type="button" data-quiz data-cta="results">Quero ser o próximo antes e depois <span class="arr">→</span></button>
+      <small>Descobre o teu plano em 60 segundos</small>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMA → MÉTODO -->
+<section class="sec light" id="metodo">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Porque é que nunca resultou?</span>
+      <h2>O problema nunca foste tu.</h2>
+      <p>Se já tentaste e desististe, é muito provável que tenha sido por uma destas razões.</p>
+    </div>
+    <div class="pain">
+      <div class="card"><div class="num">01</div><h3>Dietas que te obrigam a passar fome</h3><p>Cortas tudo o que gostas, aguentas duas semanas e voltas ao início, com mais frustração.</p></div>
+      <div class="card"><div class="num">02</div><h3>Planos genéricos da internet</h3><p>Feitos para toda a gente, logo para ninguém. Não têm em conta a tua rotina, os teus gostos nem o teu corpo.</p></div>
+      <div class="card"><div class="num">03</div><h3>Ninguém do teu lado</h3><p>Sem alguém que te ajuste o plano, responda às dúvidas e te puxe para cima, a motivação acaba.</p></div>
+    </div>
+    <div class="turn">
+      <span class="eyebrow">O método Step One</span>
+      <h3>Por isso fazemos o contrário: um plano que <span style="color:var(--o-deep)">encaixa na tua vida</span>, e não uma vida que tem de encaixar no plano.</h3>
+      <div class="pillars">
+        <div class="pillar"><div class="i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M4 11a8 5 0 0 1 16 0"/><path d="M3 15h18"/><path d="M5 15v1.5A2.5 2.5 0 0 0 7.5 19h9a2.5 2.5 0 0 0 2.5-2.5V15"/></svg></div><h3>Flexível</h3><p>Escolhes os alimentos que queres comer. É isso que te faz manter o plano e ter resultados reais.</p></div>
+        <div class="pillar"><div class="i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".6" fill="currentColor"/></svg></div><h3>100% personalizado</h3><p>Feito a partir dos teus objetivos, rotina, gostos e restrições, e ajustado todas as semanas.</p></div>
+        <div class="pillar"><div class="i" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg></div><h3>Acompanhado</h3><p>Conversa direta com a equipa, check-ins regulares e motivação para nunca te sentires sozinho.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section class="sec" id="servicos">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Qual é o teu objetivo?</span>
+      <h2>Dois caminhos. <span class="hl">Um só destino:</span> resultados.</h2>
+    </div>
+    <div class="split">
+      <article class="svc">
+        <img src="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/emagrecimento-900.webp" srcset="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/emagrecimento-560.webp 560w, https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/emagrecimento-900.webp 900w" sizes="(min-width:860px) 590px, 100vw" width="900" height="1200" alt="Treinador da Step One com um prato de comida" loading="lazy">
+        <span class="tag">Emagrecimento</span>
+        <h3>Emagrece sem sofrer.</h3>
+        <p>Não se trata só de emagrecer, é qualidade de vida. Aprende a comer o que gostas e, ainda assim, atinge o teu objetivo.</p>
+        <ul><li>Plano com os alimentos que escolhes</li><li>Adaptado a intolerâncias, vegetarianos e veganos</li><li>Ajustes com base nos teus check-ins</li></ul>
+        <button class="btn" type="button" data-quiz data-goal="Perder gordura / Secar" data-cta="svc-emagrecer">Quero perder gordura <span class="arr">→</span></button>
+      </article>
+      <article class="svc">
+        <img src="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/massa-muscular-566.webp" width="566" height="706" alt="Cliente da Step One de costas a mostrar a musculatura" loading="lazy">
+        <span class="tag">Ganho de massa muscular</span>
+        <h3>Treina com um rumo.</h3>
+        <p>Chega de andar perdido no ginásio. Sabe exatamente o que fazer em cada treino e acelera os teus resultados.</p>
+        <ul><li>Plano de treino ajustado todas as semanas</li><li>Vídeo explicativo de cada exercício</li><li>No ginásio ou em casa</li></ul>
+        <button class="btn" type="button" data-quiz data-goal="Ganhar massa muscular" data-cta="svc-massa">Quero ganhar massa <span class="arr">→</span></button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARAÇÃO -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Porquê a Step One</span>
+      <h2>Compara e decide.</h2>
+    </div>
+    <div class="cmp-table">
+      <table>
+        <thead><tr><th scope="col"><span class="sr">Característica</span></th><th scope="col" class="us">Step One<small>Acompanhado</small></th><th scope="col">Dieta da internet<small>Sozinho</small></th><th scope="col">Ginásio sem plano<small>Sozinho</small></th></tr></thead>
+        <tbody>
+          <tr><td>Comes o que gostas</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="no" aria-label="Não">✕</span></td><td><span class="mid">Depende</span></td></tr>
+          <tr><td>Plano feito para ti</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="no" aria-label="Não">✕</span></td><td><span class="no" aria-label="Não">✕</span></td></tr>
+          <tr><td>Ajustado todas as semanas</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="no" aria-label="Não">✕</span></td><td><span class="no" aria-label="Não">✕</span></td></tr>
+          <tr><td>Vídeos de cada exercício</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="no" aria-label="Não">✕</span></td><td><span class="no" aria-label="Não">✕</span></td></tr>
+          <tr><td>Alguém a acompanhar-te todos os dias</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="no" aria-label="Não">✕</span></td><td><span class="no" aria-label="Não">✕</span></td></tr>
+          <tr><td>Adaptado a restrições alimentares</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="mid">Às vezes</span></td><td><span class="no" aria-label="Não">✕</span></td></tr>
+          <tr><td>Sem fidelização</td><td class="us"><span class="yes" aria-label="Sim">✓</span></td><td><span class="yes" aria-label="Sim">✓</span></td><td><span class="mid">Depende</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section class="sec" id="como-funciona" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Como funciona</span>
+      <h2>Começas hoje. <span class="hl">O plano chega no próprio dia.</span></h2>
+      <p>Tudo online, através da nossa aplicação.</p>
+    </div>
+    <div class="tl">
+      <div class="st"><div class="dot">1</div><div class="when">Hoje · 60 segundos</div><h3>Respondes ao quiz</h3><p>Contas-nos o teu objetivo e o que te tem travado.</p></div>
+      <div class="st"><div class="dot">2</div><div class="when">A seguir</div><h3>Falamos contigo</h3><p>A equipa Step One contacta-te para perceber o teu caso e explicar os planos.</p></div>
+      <div class="st"><div class="dot">3</div><div class="when">Dia 1</div><h3>Avaliação e plano</h3><p>Fazes a avaliação na app (perguntas e fotos) e recebes os planos no próprio dia.</p></div>
+      <div class="st last"><div class="dot">★</div><div class="when">4 a 8 semanas</div><h3>Começas a ver a diferença</h3><p>Com check-ins e ajustes regulares, é quando muitas pessoas notam melhorias.</p></div>
+    </div>
+    <div class="cta-center">
+      <button class="btn btn-xl" type="button" data-quiz data-cta="timeline">Dar o primeiro passo <span class="arr">→</span></button>
+      <small>O primeiro passo demora 60 segundos</small>
+    </div>
+  </div>
+</section>
+
+<!-- TESTEMUNHOS -->
+<section class="sec" id="testemunhos">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Testemunhos reais</span>
+      <h2>As mensagens que <span class="hl">nos fazem continuar.</span></h2>
+    </div>
+    <div class="tst">
+      <div class="phone" role="img" aria-label="Mensagens de clientes Step One num ecrã de telemóvel">
+        <div class="screen">
+          <div class="wa-top"><span class="av">S1</span><span><b>Clientes Step One</b><small>online</small></span></div>
+          <div class="chat"><div class="chat-in" id="chat"></div></div>
+        </div>
+      </div>
+      <div class="quotes">
+        <figure class="q big"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>"Sozinha tenho quase a certeza que não tinha conseguido chegar aqui e já tinha desistido. Tens sido uma grande ajuda."</blockquote><figcaption><span aria-hidden="true">MF</span>Mariana Fialho</figcaption></figure>
+        <figure class="q"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>"Nem tinha noção que conseguia ter tanta atenção ao que comia e não passar fome."</blockquote><figcaption><span aria-hidden="true">DS</span>Diogo Simões</figcaption></figure>
+        <figure class="q"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>"Tens de me fazer um desconto na próxima mensalidade, que por tua culpa tenho de ir comprar calças."</blockquote><figcaption><span aria-hidden="true">PJ</span>Pedro Jorge</figcaption></figure>
+        <figure class="q"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>"O meu refluxo desapareceu. Sinto-me muito menos inchada e muito mais disposta."</blockquote><figcaption><span aria-hidden="true">AN</span>Ana Nicolau</figcaption></figure>
+        <figure class="q"><div class="stars" aria-hidden="true">★★★★★</div><blockquote>"Melhor decisão que tomei foi ter começado."</blockquote><figcaption><span aria-hidden="true">CS</span>Carolina Silva</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section class="sec white" id="planos">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Planos</span>
+      <h2>Escolhe como queres começar.</h2>
+      <p>Podes optar só por um plano, mas o acompanhamento completo é o que acelera mais os resultados.</p>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>Alimentação</h3>
+        <p class="for">Para quem quer emagrecer a comer o que gosta.</p>
+        <ul><li>Plano de alimentação personalizado</li><li>Com os alimentos que escolhes</li><li>Adaptado a restrições alimentares</li><li>Check-ins e ajustes regulares</li><li>Conversa direta com a equipa</li><li class="off">Plano de treino</li></ul>
+        <button class="btn btn-ghost" type="button" data-quiz data-plan="Só alimentação" data-cta="plan-food">Escolher alimentação</button>
+      </div>
+      <div class="plan best">
+        <span class="badge">Recomendado</span>
+        <h3>Completo</h3>
+        <p class="for">Alimentação + treino. O caminho mais rápido para o teu objetivo.</p>
+        <ul><li>Plano de alimentação personalizado</li><li>Plano de treino ajustado todas as semanas</li><li>Vídeos de cada exercício</li><li>Ginásio ou casa</li><li>Check-ins, fotos e ajustes regulares</li><li>Acompanhamento diário</li></ul>
+        <button class="btn" type="button" data-quiz data-plan="Alimentação + treino" data-cta="plan-full">Quero o completo <span class="arr">→</span></button>
+      </div>
+      <div class="plan">
+        <h3>Treino</h3>
+        <p class="for">Para quem quer treinar com rumo e ganhar massa.</p>
+        <ul><li>Plano de treino personalizado</li><li>Ajustado todas as semanas</li><li>Vídeos de cada exercício</li><li>Ginásio ou casa</li><li>Conversa direta com a equipa</li><li class="off">Plano de alimentação</li></ul>
+        <button class="btn btn-ghost" type="button" data-quiz data-plan="Só treino" data-cta="plan-train">Escolher treino</button>
+      </div>
+    </div>
+    <p class="price-note">O valor depende do plano e do teu caso. Explicamos tudo, sem compromisso, depois do quiz.</p>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="sec" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="guar">
+      <div class="seal"><span><b>0</b>fidelização</span></div>
+      <div>
+        <h3>Sem risco. Sem letras pequenas.</h3>
+        <p>Não há fidelização obrigatória. Podes cancelar ou pausar o acompanhamento quando precisares, bastando avisar com 15 dias de antecedência.</p>
+      </div>
+      <button class="btn" type="button" data-quiz data-cta="guarantee">Começar sem risco <span class="arr">→</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPA -->
+<section class="sec" id="equipa">
+  <div class="wrap team">
+    <div>
+      <span class="eyebrow">Quem te acompanha</span>
+      <h2>Aqui não és <span class="hl">mais um número.</span></h2>
+      <p>Na Step One falas diretamente com a equipa que faz o teu plano. Conhecemos o teu objetivo, a tua rotina e o que te tem travado, e ajustamos tudo contigo.</p>
+      <ul>
+        <li><span aria-hidden="true">💬</span>Respostas diretas às tuas dúvidas</li>
+        <li><span aria-hidden="true">📸</span>Check-ins regulares com fotos e feedback</li>
+        <li><span aria-hidden="true">📱</span>Tudo na app: planos, vídeos e evolução</li>
+      </ul>
+      <button class="btn" type="button" data-quiz data-cta="team">Falar com a equipa <span class="arr">→</span></button>
+    </div>
+    <div class="team-pics">
+      <img src="https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/come-o-que-gostas-560.webp" width="560" height="747" alt="Treinador da Step One a sorrir com um prato de hambúrguer e batatas" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec light" id="faq">
+  <div class="wrap">
+    <div class="head">
+      <span class="eyebrow">Dúvidas</span>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="faq">
+      <details open><summary>Vou ter de passar fome ou cortar tudo o que gosto?</summary><p>Não. Todos os nossos clientes escolhem os alimentos que querem comer. Emagrecer não é passar fome: é aprender a comer o que gostas e, ainda assim, alcançar os teus objetivos.</p></details>
+      <details><summary>Como funciona o acompanhamento online?</summary><p>Começamos com uma avaliação na nossa aplicação: respondes a perguntas sobre os teus gostos, objetivos e rotina e tiras fotos (frente, costas e lado). Os teus planos ficam disponíveis na app no próprio dia, e estamos sempre em conversa contigo para ajustar o que for preciso.</p></details>
+      <details><summary>Em quanto tempo vou ver resultados?</summary><p>Depende da dedicação, da consistência e do estilo de vida de cada pessoa. Em média, muitas pessoas notam melhorias em 4 a 8 semanas.</p></details>
+      <details><summary>Posso treinar em casa?</summary><p>Sim. O plano de treino funciona no ginásio ou em casa. É tudo adaptado à tua realidade.</p></details>
+      <details><summary>Posso escolher só alimentação ou só treino?</summary><p>Sim, podes optar por apenas um plano. O acompanhamento completo acelera ainda mais os resultados.</p></details>
+      <details><summary>E se eu tiver restrições alimentares?</summary><p>Não há problema. Os planos são ajustados para intolerâncias, vegetarianismo, veganismo e outras restrições.</p></details>
+      <details><summary>Como é acompanhada a minha evolução?</summary><p>Através de check-ins regulares, envio de fotografias e feedback direto. Assim conseguimos ajustar o plano com precisão.</p></details>
+      <details><summary>Posso cancelar quando quiser?</summary><p>Sim, não há fidelização. Podes cancelar ou pausar quando precisares, bastando avisar com 15 dias de antecedência.</p></details>
+      <details><summary>Quanto custa?</summary><p>Depende do plano que escolheres (alimentação, treino ou completo). Depois do quiz, a equipa explica-te os valores e as opções, sem qualquer compromisso.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="wrap">
+    <span class="eyebrow">A decisão é tua</span>
+    <h2>Daqui a 3 meses vais desejar ter começado hoje.</h2>
+    <p>Um plano à tua medida, comida de que gostas e alguém ao teu lado todos os dias. O primeiro passo demora 60 segundos.</p>
+    <button class="btn btn-xl pulse" type="button" data-quiz data-cta="final">Descobrir o meu plano ideal <span class="arr">→</span></button>
+    <div class="under"><span>Sem compromisso</span><span>Sem fidelização</span><span>Vagas limitadas <span data-month></span></span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year"></span> Step One · Emagrecimento &amp; Ganho de Massa Muscular</span>
+    <nav aria-label="Legal"><a href="https://step-one.pt/politica-de-privacidade/">Política de Privacidade</a><a href="https://step-one.pt/politica-de-cookies-ue/">Política de Cookies</a><a href="#" id="cookie-open">Gerir cookies</a></nav>
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <button class="btn" type="button" data-quiz data-cta="sticky">Descobrir o meu plano <span class="arr">→</span></button>
+  <a class="btn btn-wa" id="sticky-wa" href="#" target="_blank" rel="noopener" aria-label="Falar no WhatsApp" hidden><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.700-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg></a>
+</div>
+
+<!-- QUIZ -->
+<dialog class="quiz" id="quiz" aria-labelledby="qz-title">
+  <div class="qz">
+    <div class="qz-top">
+      <span class="logo" aria-hidden="true">step one<b>.</b></span>
+      <div class="qz-bar" aria-hidden="true"><i id="qz-bar"></i></div>
+      <button class="qz-x" type="button" id="qz-close" aria-label="Fechar">×</button>
+    </div>
+    <div class="qz-body">
+      <h2 id="qz-title" class="sr">Descobre o teu plano ideal</h2>
+      <form id="lead" novalidate>
+        <fieldset class="qs" data-s="1">
+          <div class="k">Pergunta 1 de 5</div>
+          <legend>Qual é o teu principal objetivo?</legend>
+          <p class="hint">Vamos adaptar tudo a isto.</p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="objetivo" value="Perder gordura / Secar"><span><span class="e" aria-hidden="true">🔥</span><span>Perder gordura / secar<small>Emagrecer sem passar fome</small></span></span></label>
+            <label class="opt"><input type="radio" name="objetivo" value="Ganhar massa muscular"><span><span class="e" aria-hidden="true">💪</span><span>Ganhar massa muscular<small>Treinar com rumo e crescer</small></span></span></label>
+            <label class="opt"><input type="radio" name="objetivo" value="Saúde e Performance"><span><span class="e" aria-hidden="true">⚡</span><span>Saúde e performance<small>Mais energia no dia a dia</small></span></span></label>
+            <label class="opt"><input type="radio" name="objetivo" value="Ainda não tenho a certeza"><span><span class="e" aria-hidden="true">🤔</span><span>Ainda não tenho a certeza<small>Ajudem-me a decidir</small></span></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qs" data-s="2" hidden>
+          <div class="k">Pergunta 2 de 5</div>
+          <legend>O que te impediu de lá chegar até agora?</legend>
+          <p class="hint">Sê honesto(a). É exatamente isto que vamos resolver.</p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="obstaculo" value="Falta de tempo"><span><span class="e" aria-hidden="true">⏰</span>Falta de tempo</span></label>
+            <label class="opt"><input type="radio" name="obstaculo" value="Não sei o que comer/treinar"><span><span class="e" aria-hidden="true">🧭</span>Não sei o que comer ou treinar</span></label>
+            <label class="opt"><input type="radio" name="obstaculo" value="Falta de motivação/consistência"><span><span class="e" aria-hidden="true">🔋</span>Falta de motivação ou consistência</span></label>
+            <label class="opt"><input type="radio" name="obstaculo" value="Já tentei tudo e nada resulta"><span><span class="e" aria-hidden="true">🔁</span>Já tentei tudo e nada resulta</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qs" data-s="3" hidden>
+          <div class="k">Pergunta 3 de 5</div>
+          <legend>O que queres incluir no acompanhamento?</legend>
+          <p class="hint">Podes mudar depois, sem problema.</p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="plano" value="Alimentação + treino"><span><span class="e" aria-hidden="true">🚀</span><span>Alimentação + treino<small>Resultados mais rápidos</small></span></span></label>
+            <label class="opt"><input type="radio" name="plano" value="Só alimentação"><span><span class="e" aria-hidden="true">🍽️</span>Só alimentação</span></label>
+            <label class="opt"><input type="radio" name="plano" value="Só treino"><span><span class="e" aria-hidden="true">🏋️</span>Só treino</span></label>
+            <label class="opt"><input type="radio" name="plano" value="Não sei, aconselhem-me"><span><span class="e" aria-hidden="true">💡</span>Não sei, aconselhem-me</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="qs" data-s="4" hidden>
+          <div class="k">Pergunta 4 de 5</div>
+          <legend>De 0 a 10, quão comprometido(a) estás em mudar nos próximos 3 meses?</legend>
+          <p class="hint">Toca num número.</p>
+          <div class="opts scale">
+            <label class="opt"><input type="radio" name="comprometimento" value="0"><span>0</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="1"><span>1</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="2"><span>2</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="3"><span>3</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="4"><span>4</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="5"><span>5</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="6"><span>6</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="7"><span>7</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="8"><span>8</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="9"><span>9</span></label>
+            <label class="opt"><input type="radio" name="comprometimento" value="10"><span>10</span></label>
+          </div>
+          <div class="scale-l"><span>Só a ver</span><span>Totalmente decidido(a)</span></div>
+        </fieldset>
+        <fieldset class="qs" data-s="5" hidden>
+          <div class="k">Pergunta 5 de 5</div>
+          <legend>Estás disposto(a) a investir em ti?</legend>
+          <p class="hint">O acompanhamento é um serviço pago e 100% personalizado.</p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="investimento" value="Sim, quero investir em mim"><span><span class="e" aria-hidden="true">✅</span>Sim, quero investir em mim</span></label>
+            <label class="opt"><input type="radio" name="investimento" value="Não, procuro algo gratuito"><span><span class="e" aria-hidden="true">🙅</span>Não, procuro algo gratuito</span></label>
+          </div>
+        </fieldset>
+        <div class="qs" data-s="6" hidden>
+          <div class="anl" aria-live="polite">
+            <div class="spin" aria-hidden="true"></div>
+            <h3 style="font-size:1.5rem;font-weight:700">A preparar a tua recomendação…</h3>
+            <ul><li>Objetivo analisado</li><li>Obstáculos identificados</li><li>Plano ideal escolhido</li></ul>
+          </div>
+        </div>
+        <fieldset class="qs" data-s="7" hidden>
+          <div class="res">
+            <div class="mini" aria-hidden="true"><img id="res-a" alt=""><img id="res-b" alt=""></div>
+            <div>
+              <div class="k">O teu plano recomendado</div>
+              <h3 id="res-title">Acompanhamento completo</h3>
+              <ul id="res-list"></ul>
+            </div>
+          </div>
+          <legend style="font-size:1.35rem">Para onde te enviamos os próximos passos?</legend>
+          <p class="hint" style="margin-bottom:14px">A equipa Step One vai falar contigo para arrancares.</p>
+          <div class="fld"><label for="f-nome">Nome</label><input id="f-nome" name="nome" autocomplete="given-name"><span class="er">Diz-nos o teu nome.</span></div>
+          <div class="fld"><label for="f-tel">Telemóvel (WhatsApp)</label><div class="tel"><span class="pre">+351</span><input id="f-tel" name="telemovel" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="912 345 678"></div><span class="er">Indica um número de telemóvel válido.</span></div>
+          <div class="fld"><label for="f-email">Email</label><input id="f-email" name="email" type="email" inputmode="email" autocomplete="email"><span class="er">Indica um email válido.</span></div>
+          <label class="cons" id="cons"><input type="checkbox" id="f-cons" name="consentimento"><span>Aceito a <a href="https://step-one.pt/politica-de-privacidade/" target="_blank" rel="noopener">Política de Privacidade</a> e autorizo a Step One a contactar-me sobre o acompanhamento.</span></label>
+          <div class="hp" aria-hidden="true"><label>Não preencher <input name="empresa" tabindex="-1" autocomplete="off"></label></div>
+        </fieldset>
+        <div class="qz-nav" id="qz-nav">
+          <button type="button" class="qz-back" id="qz-back" hidden>← Voltar</button>
+          <button type="button" class="btn" id="qz-next">Continuar <span class="arr">→</span></button>
+          <button type="submit" class="btn btn-xl" id="qz-submit" hidden style="flex:1"><span id="qz-submit-t">Quero a minha vaga</span> <span class="arr">→</span></button>
+        </div>
+        <div class="qz-err" id="qz-err" role="alert"></div>
+        <p class="safe" id="qz-safe" hidden>🔒 Os teus dados estão seguros. Não fazemos spam.</p>
+      </form>
+      <div class="done" id="done" hidden tabindex="-1">
+        <div class="ok" aria-hidden="true">✓</div>
+        <h3>Está feito, <span id="done-name"></span>! 🎉</h3>
+        <p>Recebemos as tuas respostas. A equipa Step One vai entrar em contacto contigo muito em breve.</p>
+        <div class="next"><b>O que acontece a seguir:</b><ol><li>Falamos contigo por telemóvel ou WhatsApp.</li><li>Fazes a avaliação na nossa app.</li><li>Recebes os teus planos no próprio dia.</li></ol></div>
+        <a class="btn btn-wa btn-xl" id="done-wa" href="#" target="_blank" rel="noopener" hidden style="width:100%">Acelerar: falar já no WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="exit" id="exit" aria-labelledby="exit-t">
+  <div style="font-size:2.6rem" aria-hidden="true">✋</div>
+  <h3 id="exit-t">Antes de saíres…</h3>
+  <p>Descobre em 60 segundos qual é o plano ideal para o teu objetivo. Sem compromisso.</p>
+  <button class="btn btn-xl" type="button" data-quiz data-cta="exit-intent">Descobrir o meu plano <span class="arr">→</span></button>
+  <button class="skipx" type="button" id="exit-no">Não, obrigado</button>
+</dialog>
+
+<div class="cookie" id="cookie" role="dialog" aria-label="Preferências de cookies">
+  <p>Usamos cookies de estatística e marketing para melhorar os nossos anúncios. <a href="https://step-one.pt/politica-de-cookies-ue/">Saber mais</a></p>
+  <div class="row"><button class="c-no" type="button" data-consent="denied">Recusar</button><button class="c-yes" type="button" data-consent="granted">Aceitar</button></div>
+</div>
+
+<script>
+/* ============ CONFIGURAÇÃO (editar aqui) ============ */
+var CONFIG = {
+  // URL que recebe os leads por POST (JSON): webhook do SureTriggers, Make, Zapier, n8n ou CRM.
+  formEndpoint: '',
+  // WhatsApp com indicativo, só dígitos (ex.: '351912345678'). Vazio = botões de WhatsApp escondidos.
+  whatsapp: '',
+  whatsappMsg: 'Olá! Acabei de fazer o quiz no site da Step One e quero saber mais sobre o acompanhamento.',
+  // Tracking (só carrega depois de o visitante aceitar cookies).
+  gtmId: 'GTM-TR3396WB',
+  metaPixelId: '1332430662011467',
+  // Aviso "Antes de saíres…" no desktop.
+  exitIntent: true
+};
+/* ==================================================== */
+
+(function(){
+  'use strict';
+  var $ = function(s, c){ return (c || document).querySelector(s); };
+  var $$ = function(s, c){ return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var mk = function(store){ return {
+    get: function(k){ try { return window[store].getItem(k); } catch(e){ return null; } },
+    set: function(k, v){ try { window[store].setItem(k, v); } catch(e){} }
+  }; };
+  var ls = mk('localStorage'), ss = mk('sessionStorage');
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]; }); };
+
+  /* ---------- Mês e ano ---------- */
+  var months = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  var now = new Date();
+  $$('[data-month]').forEach(function(el){ el.textContent = 'em ' + months[now.getMonth()]; });
+  $('#year').textContent = now.getFullYear();
+
+  /* ---------- Origem da visita (UTMs) ---------- */
+  var qs = new URLSearchParams(location.search);
+  var utmKeys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid'];
+  var attribution = {};
+  try { attribution = JSON.parse(ls.get('so_attr') || '{}'); } catch(e){}
+  if (utmKeys.some(function(k){ return qs.get(k); })) {
+    attribution = { landing: location.href };
+    utmKeys.forEach(function(k){ if (qs.get(k)) attribution[k] = qs.get(k); });
+    ls.set('so_attr', JSON.stringify(attribution));
+  }
+
+  /* ---------- WhatsApp ---------- */
+  var waUrl = CONFIG.whatsapp ? 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(CONFIG.whatsappMsg) : '';
+  if (waUrl) { $('#sticky-wa').href = waUrl; $('#sticky-wa').hidden = false; }
+
+  /* ---------- Tracking com consentimento ---------- */
+  window.dataLayer = window.dataLayer || [];
+  function track(ev, data){
+    window.dataLayer.push(Object.assign({ event: ev }, data || {}));
+    if (!window.fbq) return;
+    if (ev === 'generate_lead') window.fbq('track', 'Lead', { content_name: data && data.plano_recomendado });
+    if (ev === 'quiz_open') window.fbq('trackCustom', 'QuizOpen');
+    if (ev === 'quiz_complete') window.fbq('trackCustom', 'QuizComplete');
+  }
+  function loadTracking(){
+    if (CONFIG.gtmId && !window.__gtm) {
+      window.__gtm = true;
+      window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+      var g = document.createElement('script'); g.async = true; g.src = 'https://www.googletagmanager.com/gtm.js?id=' + CONFIG.gtmId; document.head.appendChild(g);
+    }
+    if (CONFIG.metaPixelId && !window.fbq) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      window.fbq('init', CONFIG.metaPixelId); window.fbq('track', 'PageView');
+    }
+  }
+  var cookie = $('#cookie'), consent = ls.get('so_consent');
+  if (consent === 'granted') loadTracking();
+  else if (!consent) setTimeout(function(){ cookie.classList.add('show'); }, 1500);
+  $$('[data-consent]').forEach(function(b){ b.addEventListener('click', function(){
+    var v = b.getAttribute('data-consent'); ls.set('so_consent', v); cookie.classList.remove('show'); if (v === 'granted') loadTracking();
+  }); });
+  $('#cookie-open').addEventListener('click', function(e){ e.preventDefault(); cookie.classList.add('show'); });
+
+  /* ---------- Resultados (antes/depois) ---------- */
+  var RESULTS = [
+    { id:'10', t:'5 semanas', p:'Plano de alimentação', k:'food' },
+    { id:'03', t:'4 meses', p:'Plano de alimentação', k:'food' },
+    { id:'02', t:'9 meses', p:'Alimentação + treino', k:'full' },
+    { id:'04', t:'6 meses', p:'Alimentação + treino', k:'full' },
+    { id:'09', t:'2 meses', p:'Plano de alimentação', k:'food' },
+    { id:'06', t:'3 meses', p:'Alimentação + treino', k:'full' },
+    { id:'07', t:'2 meses', p:'Plano de alimentação', k:'food' },
+    { id:'08', t:'3 meses', p:'Alimentação + treino', k:'full' },
+    { id:'01', t:'3 meses', p:'Plano de alimentação', k:'food' },
+    { id:'05', t:'2 meses', p:'Plano de alimentação', k:'food' }
+  ];
+  var wall = $('#wall');
+  var sizes = '(min-width:1100px) 230px, (min-width:820px) 25vw, 50vw';
+  wall.innerHTML = RESULTS.map(function(r, i){
+    var img = function(s){ var b = 'https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/r' + r.id + '-' + s; return 'src="' + b + '-360.webp" srcset="' + b + '-360.webp 360w, ' + b + '-560.webp 560w" sizes="' + sizes + '" width="360" height="900" loading="lazy"'; };
+    return '<div class="cmp' + (i >= 4 ? ' extra' : '') + '" data-cmp data-k="' + r.k + '">' +
+      '<img ' + img('antes') + ' alt="Cliente Step One antes">' +
+      '<img class="after" ' + img('depois') + ' alt="Depois de ' + r.t + ' de ' + r.p.toLowerCase() + '">' +
+      '<span class="lbl b">Antes</span><span class="lbl a">Depois</span><div class="handle" aria-hidden="true"></div>' +
+      '<div class="cap"><strong>' + r.t + '</strong><span>' + r.p + '</span></div>' +
+      '<input type="range" min="0" max="100" value="50" aria-label="Comparar antes e depois: ' + r.t + ', ' + r.p + '">' +
+      '</div>';
+  }).join('');
+  $$('[data-cmp]').forEach(function(el){
+    var input = $('input[type=range]', el);
+    input.addEventListener('input', function(){ el.style.setProperty('--pos', input.value + '%'); el.classList.add('touched'); });
+  });
+  $$('.chip').forEach(function(c){ c.addEventListener('click', function(){
+    var f = c.getAttribute('data-filter');
+    $$('.chip').forEach(function(x){ x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); });
+    $$('.cmp', wall).forEach(function(card){ card.hidden = f !== 'all' && card.getAttribute('data-k') !== f; });
+    var collapse = f === 'all' && !wall.dataset.open;
+    wall.classList.toggle('collapsed', collapse);
+    $('.wall-more').style.visibility = collapse ? '' : 'hidden';
+    track('results_filter', { filtro: f });
+  }); });
+  $('#more').addEventListener('click', function(){ wall.classList.remove('collapsed'); wall.dataset.open = '1'; $('.wall-more').style.display = 'none'; });
+
+  /* Animação no hero para mostrar que se pode arrastar */
+  var heroCmp = $('.hero [data-cmp]');
+  if (heroCmp && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var t0 = null, hIn = $('input', heroCmp);
+    var anim = function(ts){
+      if (heroCmp.classList.contains('touched')) return;
+      if (!t0) t0 = ts; var p = (ts - t0) / 2400;
+      var v = p >= 1 ? 50 : 50 + Math.sin(p * Math.PI * 2) * 30;
+      hIn.value = v; heroCmp.style.setProperty('--pos', v + '%');
+      if (p < 1) requestAnimationFrame(anim);
+    };
+    setTimeout(function(){ requestAnimationFrame(anim); }, 900);
+  }
+
+  /* ---------- Conversa estilo WhatsApp ---------- */
+  var MSGS = [
+    ['Ana Nicolau','Bom dia Gonçalo 😃 Estou-me a sentir muito melhor comigo mesma. O meu refluxo desapareceu 🥳 Sinto-me muito menos inchada e muito mais disposta para o meu dia a dia. Já começo a notar na roupa também 😊','08:12'],
+    ['Pedro Jorge','E tens de me fazer um desconto na próxima mensalidade, que por tua culpa tenho de ir comprar calças','10:47'],
+    ['Diogo Simões','Mekie mano. Desculpa chatear a estas horas, mas queria só agradecer-te pela ajuda neste processo. Nem tinha noção que conseguia ter tanta atenção ao que comia e não passar fome.','23:58'],
+    ['Mariana Cunha','Até me pesei mais que duas vezes só para ter a certeza','07:31'],
+    ['Luís Vistas','Já me tramaste!!! A minha mulher diz para eu deixar o acompanhamento, porque senão vou ficar sem roupa para vestir 😂😂😂','19:04'],
+    ['Carolina Silva','Melhor decisão que tomei foi ter começado, obrigado 🫶🏻','21:15'],
+    ['Mariana Fialho','Sozinha tenho quase a certeza que não tinha conseguido chegar aqui e já tinha desistido. Tens sido uma grande ajuda 😊🙏🏻','12:20'],
+    ['Thalles Marçal','Incrível, não sei mais o que dizer. Vou para o verão a sentir-me como nunca me senti. Obrigado por todo o teu trabalho e acompanhamento constante, és máquina','18:42']
+  ];
+  var chatHtml = MSGS.map(function(m){ return '<div class="msg"><b>' + esc(m[0]) + '</b>' + esc(m[1]) + '<i>' + m[2] + '</i></div>'; }).join('');
+  $('#chat').innerHTML = chatHtml + chatHtml;
+
+  /* ---------- Quiz ---------- */
+  var dlg = $('#quiz'), form = $('#lead'), steps = $$('.qs', form), Q = 5;
+  var bar = $('#qz-bar'), btnNext = $('#qz-next'), btnBack = $('#qz-back'), btnSubmit = $('#qz-submit'), err = $('#qz-err');
+  var cur = 1, opened = false, lastPointer = 0, submitted = false, recommended = '';
+
+  function pick(name, val){
+    var r = $$('input[name="' + name + '"]', form).filter(function(i){ return i.value === val; })[0];
+    if (r) r.checked = true;
+  }
+  function answered(n){ return $$('input[type=radio]', steps[n - 1]).some(function(r){ return r.checked; }); }
+  function firstUnanswered(){ for (var i = 1; i <= Q; i++) if (!answered(i)) return i; return 7; }
+
+  function openQuiz(o){
+    o = o || {};
+    if ($('#exit').open) $('#exit').close();
+    if (o.goal) pick('objetivo', o.goal);
+    if (o.plan) pick('plano', o.plan);
+    if (!submitted) show(firstUnanswered(), false);
+    if (!dlg.open) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
+    document.documentElement.style.overflow = 'hidden';
+    if (!opened) { opened = true; track('quiz_open', { origem: o.cta || '' }); }
+    ss.set('so_quiz_seen', '1');
+    var f = submitted ? $('#done') : steps[cur - 1].querySelector('input:checked') || steps[cur - 1].querySelector('input');
+    if (f) setTimeout(function(){ f.focus({ preventScroll: true }); }, 50);
+  }
+  function closeQuiz(){ if (dlg.open) dlg.close(); }
+  dlg.addEventListener('close', function(){ document.documentElement.style.overflow = ''; });
+  $('#qz-close').addEventListener('click', closeQuiz);
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) closeQuiz(); });
+
+  function show(n, focus){
+    cur = n;
+    steps.forEach(function(s){ s.hidden = +s.getAttribute('data-s') !== n; });
+    bar.style.width = (n <= Q ? ((n - 1) / Q) * 100 + 4 : n === 6 ? 92 : 96) + '%';
+    btnBack.hidden = n === 1 || n === 6;
+    btnNext.hidden = n > Q;
+    btnSubmit.hidden = n !== 7;
+    $('#qz-nav').style.display = n === 6 ? 'none' : '';
+    $('#qz-safe').hidden = n !== 7;
+    err.classList.remove('show');
+    $('.qz-body', dlg).scrollTop = 0;
+    if (n === 7) buildResult();
+    if (focus) {
+      var t = steps[n - 1].querySelector('input:checked') || steps[n - 1].querySelector('input:not([tabindex="-1"])');
+      if (t) t.focus({ preventScroll: true });
+    }
+    if (n <= Q && opened) track('quiz_step', { passo: n });
+  }
+  function next(){
+    if (cur <= Q && !answered(cur)) { err.textContent = 'Escolhe uma opção para continuar.'; err.classList.add('show'); return; }
+    if (cur === Q) return analyse();
+    show(cur + 1, true);
+  }
+  function analyse(){
+    show(6, false);
+    var lis = $$('.anl li', form);
+    lis.forEach(function(l){ l.classList.remove('on'); });
+    lis.forEach(function(l, i){ setTimeout(function(){ l.classList.add('on'); }, 450 * (i + 1)); });
+    setTimeout(function(){ if (cur !== 6) return; track('quiz_complete', answers()); show(7, true); }, 1800);
+  }
+  btnNext.addEventListener('click', next);
+  btnBack.addEventListener('click', function(){ show(cur === 7 ? Q : cur - 1, true); });
+  form.addEventListener('pointerdown', function(){ lastPointer = Date.now(); });
+  form.addEventListener('change', function(e){
+    if (e.target.type !== 'radio') return;
+    err.classList.remove('show');
+    if (Date.now() - lastPointer > 1500) return; // com teclado avança com Enter ou "Continuar"
+    var at = cur; setTimeout(function(){ if (cur === at) next(); }, 280);
+  });
+  form.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' && cur <= Q && e.target.tagName === 'INPUT') { e.preventDefault(); next(); }
+  });
+
+  $$('[data-quiz]').forEach(function(b){ b.addEventListener('click', function(e){
+    e.preventDefault();
+    track('cta_click', { cta: b.getAttribute('data-cta') });
+    openQuiz({ goal: b.getAttribute('data-goal'), plan: b.getAttribute('data-plan'), cta: b.getAttribute('data-cta') });
+  }); });
+
+  function answers(){
+    var fd = new FormData(form);
+    return { objetivo: fd.get('objetivo'), obstaculo: fd.get('obstaculo'), plano: fd.get('plano'), comprometimento: Number(fd.get('comprometimento')), investimento: fd.get('investimento') };
+  }
+  function buildResult(){
+    var a = answers();
+    var plan = a.plano === 'Só alimentação' || a.plano === 'Só treino' ? a.plano : 'Alimentação + treino';
+    recommended = plan === 'Só alimentação' ? 'Plano de alimentação' : plan === 'Só treino' ? 'Plano de treino' : 'Acompanhamento completo';
+    $('#res-title').textContent = recommended;
+    var lines = [
+      {
+        'Perder gordura / Secar': 'Perder gordura sem passar fome, a comer o que gostas',
+        'Ganhar massa muscular': 'Treino com objetivos, ajustado todas as semanas',
+        'Saúde e Performance': 'Mais energia e melhor forma no dia a dia',
+        'Ainda não tenho a certeza': 'Definimos contigo o objetivo certo na avaliação'
+      }[a.objetivo],
+      {
+        'Falta de tempo': 'Refeições e treinos que encaixam na tua rotina',
+        'Não sei o que comer/treinar': plan === 'Só alimentação' ? 'Sabes sempre o que comer, sem dúvidas' : 'Sabes sempre o que fazer, com vídeos de cada exercício',
+        'Falta de motivação/consistência': 'Acompanhamento diário para não desistires',
+        'Já tentei tudo e nada resulta': 'Um plano flexível e feito para ti, não genérico'
+      }[a.obstaculo],
+      a.comprometimento >= 8 ? 'Com ' + a.comprometimento + '/10 de compromisso, estás pronto(a) para começar' : 'Vamos ajudar-te a ganhar consistência, passo a passo'
+    ];
+    $('#res-list').innerHTML = lines.filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('');
+    var pic = a.objetivo === 'Ganhar massa muscular' ? '02' : a.objetivo === 'Saúde e Performance' ? '04' : '10';
+    $('#res-a').src = 'https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/r' + pic + '-antes-360.webp';
+    $('#res-b').src = 'https://cdn.jsdelivr.net/gh/stackd-sys/stepone@main/assets/img/r' + pic + '-depois-360.webp';
+  }
+
+  /* Validação do contacto */
+  var nome = $('#f-nome'), tel = $('#f-tel'), email = $('#f-email'), cons = $('#f-cons');
+  function digits(v){ var d = v.replace(/[^\d+]/g, ''); if (d.indexOf('+351') === 0) d = d.slice(4); else if (d.indexOf('00351') === 0) d = d.slice(5); return d; }
+  function phoneOk(v){ var d = digits(v); return /^9[1236]\d{7}$/.test(d) || /^2\d{8}$/.test(d) || /^(\+|00)\d{8,15}$/.test(v.replace(/[\s-]/g, '')); }
+  function mark(i, bad){ i.closest('.fld').classList.toggle('bad', bad); i.setAttribute('aria-invalid', bad ? 'true' : 'false'); }
+  function validate(){
+    var first = null;
+    [[nome, nome.value.trim().length < 2], [tel, !phoneOk(tel.value)], [email, !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim())]].forEach(function(p){ mark(p[0], p[1]); if (p[1] && !first) first = p[0]; });
+    $('#cons').classList.toggle('bad', !cons.checked); if (!cons.checked && !first) first = cons;
+    return first;
+  }
+  [nome, tel, email].forEach(function(i){ i.addEventListener('input', function(){ if (i.closest('.fld').classList.contains('bad')) validate(); }); });
+  cons.addEventListener('change', function(){ $('#cons').classList.toggle('bad', !cons.checked); });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (cur !== 7) return next();
+    var bad = validate(); if (bad) { bad.focus(); return; }
+    if (form.empresa.value) return; // honeypot
+    var a = answers();
+    var lead = Object.assign({
+      nome: nome.value.trim(),
+      telemovel: /^(\+|00)/.test(tel.value.trim()) ? tel.value.replace(/[\s-]/g, '') : '+351' + digits(tel.value),
+      email: email.value.trim()
+    }, a, {
+      plano_recomendado: recommended,
+      consentimento: true,
+      pagina: location.href.split('#')[0],
+      referrer: document.referrer || '',
+      enviado_em: new Date().toISOString()
+    }, attribution);
+    var label = $('#qz-submit-t');
+    btnSubmit.disabled = true; label.textContent = 'A enviar…';
+    send(lead).then(function(){
+      submitted = true;
+      track('generate_lead', { objetivo: a.objetivo, plano_recomendado: recommended, investimento: a.investimento, comprometimento: a.comprometimento });
+      $('#done-name').textContent = lead.nome.split(' ')[0];
+      form.hidden = true; $('#done').hidden = false; bar.style.width = '100%';
+      if (waUrl) { var w = $('#done-wa'); w.href = waUrl; w.hidden = false; }
+      $('#done').focus();
+    }).catch(function(){
+      btnSubmit.disabled = false; label.textContent = 'Quero a minha vaga';
+      err.innerHTML = 'Não conseguimos enviar agora. Tenta de novo' + (waUrl ? ' ou <a href="' + waUrl + '" target="_blank" rel="noopener">fala connosco no WhatsApp</a>.' : '.');
+      err.classList.add('show');
+    });
+  });
+  function send(lead){
+    if (!CONFIG.formEndpoint) {
+      console.error('[Step One] CONFIG.formEndpoint está vazio: configura o webhook para receber os leads.', lead);
+      return Promise.reject(new Error('sem endpoint'));
+    }
+    return fetch(CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(lead) })
+      .then(function(r){ if (!r.ok) throw new Error('HTTP ' + r.status); return r; });
+  }
+  show(1, false);
+
+  /* ---------- Exit intent (só desktop, uma vez por sessão) ---------- */
+  var exitDlg = $('#exit');
+  if (CONFIG.exitIntent && matchMedia('(pointer:fine)').matches && exitDlg.showModal) {
+    document.addEventListener('mouseout', function(e){
+      if (e.relatedTarget || e.clientY > 8) return;
+      if (ss.get('so_exit') || ss.get('so_quiz_seen') || submitted || dlg.open) return;
+      ss.set('so_exit', '1'); exitDlg.showModal(); track('exit_intent_shown');
+    });
+  }
+  $('#exit-no').addEventListener('click', function(){ exitDlg.close(); });
+
+  /* ---------- Barra fixa no mobile ---------- */
+  var sticky = $('#sticky');
+  if ('IntersectionObserver' in window) {
+    var heroIn = true, finalIn = false;
+    var upd = function(){ sticky.classList.toggle('show', !heroIn && !finalIn); };
+    new IntersectionObserver(function(en){ heroIn = en[0].isIntersecting; upd(); }).observe($('.hero'));
+    new IntersectionObserver(function(en){ finalIn = en[0].isIntersecting; upd(); }).observe($('.final'));
+  }
+})();
+</script>
