@@ -801,7 +801,6 @@
           <input type="hidden" name="source">
           <input type="hidden" name="medium">
           <input type="hidden" name="campanha">
-          <input type="hidden" name="conjunto">
           <input type="hidden" name="criativo">
           <input type="hidden" name="fbclid">
           <input type="hidden" name="gclid">
@@ -894,8 +893,8 @@ var CONFIG = {
     source: attribution.utm_source || (attribution.fbclid ? 'facebook' : attribution.gclid ? 'google' : refHost() || 'direto'),
     medium: attribution.utm_medium || (attribution.fbclid || attribution.gclid ? 'paid' : refHost() ? 'referral' : '(none)'),
     campanha: attribution.utm_campaign || '',
-    conjunto: attribution.utm_term || '',
-    criativo: attribution.utm_content || '',
+    // Convenção Step One: utm_term = anúncio/criativo (ex.: ad-promocao); utm_content como alternativa
+    criativo: attribution.utm_term || attribution.utm_content || '',
     fbclid: attribution.fbclid || '',
     gclid: attribution.gclid || '',
     landing: attribution.landing || location.href.split('#')[0],

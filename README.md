@@ -57,18 +57,17 @@ Cada lead enviado para o Make leva sempre estes campos, mesmo que vazios:
 |---|---|---|
 | `data` | data e hora do envio | 25/09/2026 17:35 |
 | `source` | `utm_source` (ou `facebook`/`google` se só houver fbclid/gclid, o site de origem, ou `direto`) | facebook |
-| `medium` | `utm_medium` | paid |
-| `campanha` | `utm_campaign` | setembro_leads |
-| `conjunto` | `utm_term` | mulheres_25_45 |
-| `criativo` | `utm_content` | video_antes_depois |
+| `medium` | `utm_medium` | cpc |
+| `campanha` | `utm_campaign` | adv-tofu |
+| `criativo` | `utm_term` (ou `utm_content`, se não houver `utm_term`) | ad-promocao |
 | `fbclid`, `gclid`, `landing`, `referrer` | URL e página de origem | |
 
 Os UTMs ficam guardados no browser, por isso contam mesmo que a pessoa volte mais tarde sem eles.
 
-**Parâmetros de URL para os anúncios da Meta** (em "Parâmetros de URL" do anúncio):
+**Parametrização usada pela Step One** (em "Parâmetros de URL" do anúncio):
 
 ```
-utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{adset.name}}&utm_content={{ad.name}}
+utm_source=facebook&utm_medium=cpc&utm_campaign=adv-tofu&utm_term=ad-promocao
 ```
 
 ## Gerar a versão do Elementor
