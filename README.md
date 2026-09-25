@@ -22,7 +22,7 @@ Todos os factos vêm do site atual: +50 clientes, sem fidelização com 15 dias 
 
 No fim do `index.html`, no bloco `CONFIG`:
 
-- **`formEndpoint`**: URL de um webhook que receba POST JSON (SureTriggers, Make, Zapier, n8n ou CRM). **Sem isto, o formulário mostra um erro e o lead não fica guardado.**
+- **`formEndpoint`** (configurado: webhook do Make): URL de um webhook que receba POST JSON (SureTriggers, Make, Zapier, n8n ou CRM). **Sem isto, o formulário mostra um erro e o lead não fica guardado.**
   Campos enviados: `nome, telemovel, email, objetivo, obstaculo, plano, comprometimento, investimento, plano_recomendado, consentimento, pagina, referrer, enviado_em, utm_*`.
 - **`whatsapp`**: número no formato `3519XXXXXXXX`. Ativa o botão WhatsApp no telemóvel e no ecrã final.
 - `gtmId` e `metaPixelId` já vêm do site atual e só carregam depois de o visitante aceitar cookies.
