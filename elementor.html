@@ -852,7 +852,10 @@ var CONFIG = {
   gtmId: 'GTM-TR3396WB',
   metaPixelId: '1332430662011467',
   // Aviso "Antes de saíres…" no desktop.
-  exitIntent: true
+  exitIntent: true,
+  // Página de obrigado: depois de enviar, o visitante é levado para aqui (com ?nome=…&plano=…).
+  // Vazio = mostra a mensagem de sucesso dentro do quiz.
+  thankYouUrl: ''
 };
 /* ==================================================== */
 
@@ -1149,6 +1152,13 @@ var CONFIG = {
     send(lead).then(function(){
       submitted = true;
       track('generate_lead', { objetivo: a.objetivo, plano_recomendado: recommended, investimento: a.investimento, comprometimento: a.comprometimento });
+      if (CONFIG.thankYouUrl) {
+        var u = CONFIG.thankYouUrl + (CONFIG.thankYouUrl.indexOf('?') < 0 ? '?' : '&') +
+          'nome=' + encodeURIComponent(lead.nome.split(' ')[0]) + '&plano=' + encodeURIComponent(recommended);
+        label.textContent = 'A redirecionar…';
+        setTimeout(function(){ location.href = u; }, 600); // dá tempo ao GTM/Pixel de registar o lead
+        return;
+      }
       $('#done-name').textContent = lead.nome.split(' ')[0];
       form.hidden = true; $('#done').hidden = false; bar.style.width = '100%';
       if (waUrl) { var w = $('#done-wa'); w.href = waUrl; w.hidden = false; }

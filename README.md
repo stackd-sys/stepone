@@ -74,3 +74,10 @@ utm_source=facebook&utm_medium=paid&utm_campaign={{campaign.name}}&utm_term={{ad
 ## Gerar a versão do Elementor
 
 Depois de alterar `index.html`, correr `python3 build-elementor.py` para atualizar `elementor.html`. Este ficheiro isola a página dos estilos do tema: tudo fica dentro de `<div id="so">`, com os estilos do WordPress anulados.
+
+## Página de obrigado
+
+- `obrigado.html` (Vercel) e `elementor-obrigado.html` (para colar no Elementor, gerada por `build-elementor.py`).
+- Mostra o primeiro nome e o plano recomendado, que chegam no URL (`?nome=…&plano=…`), os próximos passos, botão de WhatsApp (se `whatsapp` estiver preenchido no `CONFIG` desta página) e alguns antes/depois.
+- Na landing page, preencher `thankYouUrl` no `CONFIG` com o endereço da página de obrigado. Depois de enviar o quiz, o visitante é redirecionado para lá. Vazio = mensagem de sucesso dentro do quiz.
+- O lead é registado na landing page (`generate_lead`, `Lead` no Pixel). A página de obrigado envia `thank_you_view` para o dataLayer, sem repetir o `Lead`.

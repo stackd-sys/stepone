@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera elementor.html a partir de index.html.
+"""Gera elementor.html (de index.html) e elementor-obrigado.html (de obrigado.html).
 
 - Imagens e fontes com endereço absoluto (CDN jsDelivr a partir deste repositório).
 - Todo o CSS fica dentro de #so, com prioridade sobre os estilos do tema e do Elementor.
@@ -59,17 +59,20 @@ def scope_css(css):
     return ''.join(out)
 
 
-src = open('index.html', encoding='utf-8').read()
-css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
-body = re.search(r'<body>(.*)</body>', src, re.S).group(1).strip()
-body = body.replace('href="#main"', 'href="#so-main"').replace('id="main"', 'id="so-main"')
+def build(src_file, out_file):
+    src = open(src_file, encoding='utf-8').read()
+    css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
+    body = re.search(r'<body>(.*)</body>', src, re.S).group(1).strip()
+    body = body.replace('href="#main"', 'href="#so-main"').replace('id="main"', 'id="so-main"')
+    out = (
+        f'<!-- Step One: colar num widget HTML do Elementor (modelo "Elementor Canvas"). '
+        f'Gerado a partir de {src_file} por build-elementor.py. -->\n'
+        '<style>' + RESET + scope_css(css) + '</style>\n'
+        f'<div id="{SCOPE[1:]}">\n' + body + '\n</div>\n'
+    ).replace('assets/', BASE + 'assets/')
+    open(out_file, 'w', encoding='utf-8').write(out)
+    print(f'{out_file}: {len(out)} caracteres')
 
-out = (
-    '<!-- Step One: colar num widget HTML do Elementor (modelo "Elementor Canvas"). '
-    'Gerado a partir de index.html por build-elementor.py. -->\n'
-    '<style>' + RESET + scope_css(css) + '</style>\n'
-    f'<div id="{SCOPE[1:]}">\n' + body + '\n</div>\n'
-).replace('assets/', BASE + 'assets/')
 
-open('elementor.html', 'w', encoding='utf-8').write(out)
-print('elementor.html:', len(out), 'caracteres')
+build('index.html', 'elementor.html')
+build('obrigado.html', 'elementor-obrigado.html')
